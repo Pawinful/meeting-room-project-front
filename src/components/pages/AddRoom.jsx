@@ -4,7 +4,7 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 const AddRoom = () => {
   return (
     <>
-    <div className='bg-[#EBEDF1] h-[90vh] flex justify-center items-center '>
+    <div className='bg-[#EBEDF1] h-[92vh] flex justify-center items-center '>
       <div className='p-10 bg-white w-[94%] h-[80vh] shadow-md'>
         
         <h1 className='text-[#8A2A2B] text-xl font-bold mb-10'>เพิ่มห้องประชุม</h1>
