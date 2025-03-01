@@ -5,7 +5,7 @@ import { CgProfile } from "react-icons/cg";
 
 const Navbar = () => {
   return (
-    <div className='bg-[#979797] flex flex-col h-screen w-62'>
+    <div className='bg-[#979797] flex flex-col h-screen w-62 sticky top-0'>
       <div className='flex flex-col items-center justify-center pt-12 pb-10'>
         <CgProfile className='w-20 h-20 mb-2 text-white' />
         <span className='text-2xl text-white font-bold'>Admin</span>
@@ -13,7 +13,7 @@ const Navbar = () => {
 
       <div className='flex-1'>
         <ul>
-          <li className='flex items-center py-4 px-6 cursor-pointer hover:bg-[#565656] '>
+          <li className='flex items-center py-4 px-6 cursor-pointer hover:bg-[#565656]'>
             <IoCheckmarkCircle className='w-7 h-7 text-white'/>
             <span className='text-white text-base font-bold ml-4'>อนุมัติการจอง</span>
           </li>
@@ -32,7 +32,7 @@ const Navbar = () => {
         </ul>
       </div>
 
-      <div className='mb-6'>
+      <div className='mt-auto mb-6'>
         <ul>
           <li className='flex items-center py-4 px-6 cursor-pointer hover:bg-[#565656] transition duration-200'>
             <IoLogOut className='w-7 h-7 text-white'/>
@@ -41,7 +41,7 @@ const Navbar = () => {
         </ul>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default Navbar;

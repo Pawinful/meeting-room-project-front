@@ -14,6 +14,7 @@ import Home from "./components/pages/Home";
 import BookingInfo from "./components/pages/BookingInfo.jsx";
 import ManageRoom from "./components/pages/ManageRoom.jsx";
 import AddRoom from "./components/pages/AddRoom.jsx";
+import Dashboard from "./components/pages/Dashboard.jsx";
 import Admin from "./components/pages/Admin";
 import Login from "./components/pages/Login";
 
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "/addroom",
         element: <AddRoom />,
+      },
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
       },
     ],
   },
