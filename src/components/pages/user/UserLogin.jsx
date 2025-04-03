@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../Assets/TSE_LOGO.png";
+import logo from "../../Assets/TSE_LOGO.png";
 
 function Login() {
   return (
@@ -23,7 +23,7 @@ function Login() {
           {/* Form */}
           <div className="space-y-6">
             <div>
-              <label className="block text-gray-700 font-medium mb-2">Admin</label>
+              <label className="block text-gray-700 font-medium mb-2">TSE ID</label>
               <input
                 type="text"
                 className="w-full p-3 bg-[#EBEDF1] rounded-md focus:outline-none"
@@ -40,7 +40,8 @@ function Login() {
           </div>
 
           {/* Button */}
-          <div className="mt-14 text-center">
+          <div className="mt-8 text-center">
+            <p className="text-sm text-gray-600 mb-3">จองล่วงหน้าอย่างน้อย 1 วัน</p>
             <button className="w-31 bg-[#8A2A2B] text-white py-2 rounded-md text-lg font-semibold hover:bg-[#621d1e]">
               Sign In
             </button>

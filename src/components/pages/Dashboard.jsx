@@ -7,31 +7,26 @@ const bookings = [
   { room: "Meeting Room 3", times: [null, null, "651074265", "651074265", "651074265", null] },
   { room: "Meeting Room 4", times: [null, null, null, null, null, null] },
   { room: "Meeting Room 5", times: [null, "651074266", "651074266", null, "651074267", null] },
-
 ];
-
 
 const Dashboard = () => {
   return (
-    <>
     <div className="bg-gray-100 min-h-screen p-6">
       <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
 
       {/* แถว 1 */}
-      <div className="grid grid-cols-5 gap-6 mb-6 text-center">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-6 mb-6 text-center">
         {[
           ["การจองทั้งหมด", 3],
           ["การจองวันนี้", 3],
           ["รอการอนุมัติ", 3],
           ["จำนวนห้องประชุม", 3],
         ].map(([title, value], index) => (
-          <div key={index} className="bg-white rounded-lg p-4">
+          <div key={index} className="bg-white rounded-lg p-4 shadow">
             <p className="font-bold mb-2">{title}</p>
             <p className="text-3xl font-bold">{value}</p>
           </div>
         ))}
-
-        {/* เวลาทำการ */}
         <div className="bg-white rounded-lg p-4 text-left">
           <p className="font-bold mb-2">เวลาทำการ</p>
           <div>
@@ -42,8 +37,7 @@ const Dashboard = () => {
       </div>
 
       {/* แถว 2 */}
-      <div className="grid grid-cols-4 gap-6 mb-6">
-
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
         {/* ตารางแสดงการจองห้อง */}
         <div className="bg-white rounded-lg col-span-2 p-4 text-left">
           <p className="font-bold text-lg">ตารางแสดงการจองห้อง</p>
@@ -80,11 +74,10 @@ const Dashboard = () => {
           </div>
         </div>
 
-
         {/* การจองล่าสุด */}
-        <div className="bg-white rounded-lg col-span-1 p-4">
+        <div className="bg-white rounded-lg p-4">
           <p className="font-bold text-lg mb-2">การจองล่าสุด</p>
-          <div className="overflow-auto max-h-80 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="overflow-auto max-h-80 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidde">
             {[
               ["651074262", "Pending", "1 Oct 2024"],
               ["651074263", "Rejected", "1 Oct 2024"],
@@ -109,11 +102,11 @@ const Dashboard = () => {
         </div>
 
         {/* ประเภทผู้ใช้งาน */}
-        <div className="bg-white rounded-lg col-span-1 p-4">
+        <div className="bg-white rounded-lg p-4">
           <p className="font-bold text-lg mb-2">ประเภทผู้ใช้งาน</p>
           <Chart
             width={"100%"}
-            height={"90%"}
+            height={"250px"}
             chartType="PieChart"
             loader={<div>Loading Chart...</div>}
             data={[
@@ -124,25 +117,23 @@ const Dashboard = () => {
             options={{
               pieHole: 0,
               legend: { position: "bottom" },
-              slices: { 0: { color: "#FBC02D" }, 1: { color: "#8E24AA" } },
             }}
           />
         </div>
       </div>
 
       {/* แถว 3 */}
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white rounded-lg p-4">
           <p className="font-bold text-lg mb-2">กราฟสรุปจำนวนการจองห้องประชุม</p>
           <Chart
             width={"100%"}
-            height={"200px"}
+            height={"250px"}
             chartType="LineChart"
             loader={<div>Loading Chart</div>}
             data={[
               ["เดือน", "จำนวนจอง"],
               ["JAN", 30], ["FEB", 40], ["MAR", 35], ["APR", 50], ["MAY", 30], ["JUN", 45],
-              ["JUL", 50], ["AUG", 40], ["SEP", 30], ["OCT", 60], ["NOV", 80], ["DEC", 70]
             ]}
             options={{
               hAxis: { title: "เดือน" },
@@ -156,13 +147,12 @@ const Dashboard = () => {
           <p className="font-bold text-lg mb-2">กราฟเปรียบเทียบความนิยมห้องประชุม</p>
           <Chart
             width={"100%"}
-            height={"200px"}
+            height={"250px"}
             chartType="ColumnChart"
             loader={<div>Loading Chart</div>}
             data={[
               ["ห้อง", "ความนิยม"],
               ["Meeting Room 1", 15], ["Meeting Room 2", 10], ["Meeting Room 3", 7],
-              ["Meeting Room 4", 12], ["Meeting Room 5", 14]
             ]}
             options={{
               hAxis: { title: "ห้องประชุม" },
@@ -173,7 +163,6 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
-    </>
   )
 }
 
