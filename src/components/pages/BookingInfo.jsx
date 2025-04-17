@@ -165,7 +165,6 @@ const BookingInfo = () => {
           </div>
         </div>
       </div>
-      
 
       {selectedBooking && (
         <div
@@ -185,22 +184,41 @@ const BookingInfo = () => {
             </div>
 
             <hr className="mb-4 -mx-10" />
-            <p><b>ห้องประชุม:</b> {selectedBooking.room}</p>
-            <p><b>ชื่อการประชุม:</b> {selectedBooking.topic}</p>
-            <p><b>รายละเอียดการประชุม:</b> {selectedBooking.details}</p>
-            <p><b>Student ID:</b> {selectedBooking.studentId}</p>
-            <p><b>สาขา:</b> {selectedBooking.major}</p>
-            <p><b>E-Mail:</b> {selectedBooking.email}</p>
-            <p><b>วันที่:</b> {selectedBooking.date}</p>
-            <p><b>เวลาเริ่มต้น:</b> {selectedBooking.timeStart}</p>
-            <p><b>เวลาสิ้นสุด:</b> {selectedBooking.timeEnd}</p>
-            <p><b>สถานะ:</b> {selectedBooking.status_}</p>
+            <p>
+              <b>ห้องประชุม:</b> {selectedBooking.room}
+            </p>
+            <p>
+              <b>ชื่อการประชุม:</b> {selectedBooking.topic}
+            </p>
+            <p>
+              <b>รายละเอียดการประชุม:</b> {selectedBooking.details}
+            </p>
+            <p>
+              <b>Student ID:</b> {selectedBooking.studentId}
+            </p>
+            <p>
+              <b>สาขา:</b> {selectedBooking.major}
+            </p>
+            <p>
+              <b>E-Mail:</b> {selectedBooking.email}
+            </p>
+            <p>
+              <b>วันที่:</b> {selectedBooking.date}
+            </p>
+            <p>
+              <b>เวลาเริ่มต้น:</b> {selectedBooking.timeStart}
+            </p>
+            <p>
+              <b>เวลาสิ้นสุด:</b> {selectedBooking.timeEnd}
+            </p>
+            <p>
+              <b>สถานะ:</b> {selectedBooking.status_}
+            </p>
           </div>
         </div>
       )}
-
     </>
-  )
-}
+  );
+};
 
 export default BookingInfo;

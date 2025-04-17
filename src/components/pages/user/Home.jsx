@@ -4,11 +4,23 @@ import { Link, useNavigate } from "react-router-dom";
 const meetingRooms = [
   {
     campus: "Rangsit Campus",
-    rooms: ["Meeting Room 1", "Meeting Room 2", "Meeting Room 3", "Meeting Room 4", "Meeting Room 5", "Meeting Room 6"],
+    rooms: [
+      "Meeting Room 1",
+      "Meeting Room 2",
+      "Meeting Room 3",
+      "Meeting Room 4",
+      "Meeting Room 5",
+      "Meeting Room 6",
+    ],
   },
   {
     campus: "Pattaya Campus",
-    rooms: ["Meeting Room 7", "Meeting Room 8", "Meeting Room 9", "Meeting Room 10"],
+    rooms: [
+      "Meeting Room 7",
+      "Meeting Room 8",
+      "Meeting Room 9",
+      "Meeting Room 10",
+    ],
   },
 ];
 
@@ -33,13 +45,16 @@ const Home = () => {
             {/* ทุกห้องประชุม */}
             <div className="p-6 grid grid-cols-2 gap-8 relative mt-[-55px] max-[350px]:p-5 max-[350px]:gap-6  ">
               {campus.rooms.map((room, i) => (
-                <Link to="/roominfo" >
-                <div key={i} className="bg-[#A6A6A6] w-full h-36 rounded-lg shadow-md relative">
-                  {/* ชื่อห้องประชุม */}
-                  <span className="absolute bottom-5 left-0 w-full text-center text-sm font-semibold text-white">
-                    {room}
-                  </span>
-                </div>
+                <Link to="/roominfo">
+                  <div
+                    key={i}
+                    className="bg-[#A6A6A6] w-full h-36 rounded-lg shadow-md relative"
+                  >
+                    {/* ชื่อห้องประชุม */}
+                    <span className="absolute bottom-5 left-0 w-full text-center text-sm font-semibold text-white">
+                      {room}
+                    </span>
+                  </div>
                 </Link>
               ))}
             </div>
@@ -47,7 +62,7 @@ const Home = () => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Home;

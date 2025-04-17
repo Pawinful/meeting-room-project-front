@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const data = [
   {
@@ -102,8 +102,7 @@ const ApproveBooking = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default ApproveBooking;
- 

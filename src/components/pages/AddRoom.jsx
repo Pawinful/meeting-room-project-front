@@ -25,12 +25,18 @@ const AddRoom = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow">
               <div>
                 <label className="font-bold block mb-2">หมายเลขห้อง TH</label>
-                <input className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300" type="text" />
+                <input
+                  className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  type="text"
+                />
               </div>
 
               <div>
                 <label className="font-bold block mb-2">หมายเลขห้อง EN</label>
-                <input className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300" type="text" />
+                <input
+                  className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  type="text"
+                />
               </div>
 
               <div>
@@ -42,7 +48,10 @@ const AddRoom = () => {
 
               <div>
                 <label className="font-bold block mb-2">อาคาร</label>
-                <input className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300" type="text" />
+                <input
+                  className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  type="text"
+                />
               </div>
 
               <div>
@@ -54,7 +63,10 @@ const AddRoom = () => {
 
               <div>
                 <label className="font-bold block mb-2">ประเภทห้อง</label>
-                <input className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300" type="text" />
+                <input
+                  className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  type="text"
+                />
               </div>
 
               <div>
@@ -66,7 +78,10 @@ const AddRoom = () => {
 
               <div>
                 <label className="font-bold block mb-2">เหตุผล</label>
-                <input className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300" type="text" />
+                <input
+                  className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  type="text"
+                />
               </div>
             </div>
           </div>
@@ -83,7 +98,7 @@ const AddRoom = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default AddRoom;

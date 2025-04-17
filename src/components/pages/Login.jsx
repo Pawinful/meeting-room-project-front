@@ -4,7 +4,6 @@ import logo from "../Assets/TSE_LOGO.png";
 function Login() {
   return (
     <div className="min-h-screen flex flex-col justify-between p-6">
-
       {/* Logo */}
       <div className="flex justify-center">
         <img className="w-100" src={logo} alt="TSE Logo" />
@@ -23,7 +22,9 @@ function Login() {
           {/* Form */}
           <div className="space-y-6">
             <div>
-              <label className="block text-gray-700 font-medium mb-2">Admin</label>
+              <label className="block text-gray-700 font-medium mb-2">
+                Admin
+              </label>
               <input
                 type="text"
                 className="w-full p-3 bg-[#EBEDF1] rounded-md focus:outline-none"
@@ -31,7 +32,9 @@ function Login() {
             </div>
 
             <div>
-              <label className="block text-gray-700 font-medium mb-2">Password</label>
+              <label className="block text-gray-700 font-medium mb-2">
+                Password
+              </label>
               <input
                 type="password"
                 className="w-full p-3 bg-[#EBEDF1] rounded-md focus:outline-none"
@@ -47,9 +50,8 @@ function Login() {
           </div>
         </div>
       </div>
-
     </div>
-  )
+  );
 }
 
 export default Login;
