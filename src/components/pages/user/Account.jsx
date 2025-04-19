@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaCircleUser } from "react-icons/fa6";
 
+const user_Data = {
+  fullname: "Poompu Srimanut",
+  student_id: "6510742494",
+  contact: "0818814080",
+  email: "peemcnxyy@gmail.com",
+};
+
 const Account = () => {
+  const [contactPhone, setContactPhone] = useState(user_Data.contact);
+  const [emailAddress, setEmailAddress] = useState(user_Data.email);
+
   return (
     <div className="max-w-xl mx-auto p-6">
       <div className="flex flex-col items-center gap-2 mt-3">
@@ -14,31 +24,33 @@ const Account = () => {
         User Info
       </div>
       <div className="mb-4 ml-2">
-        <div className=" text-gray-700  text-sm font-bold mb-2">Full name</div>
-        <div className=" text-gray-700  ml-3">Sharky Sharky</div>
+        <div className="text-gray-700 text-sm font-bold mb-2">Full name</div>
+        <div className="text-gray-700 ml-3">{user_Data.fullname}</div>
       </div>
       <div className="mb-4 ml-2">
-        <div className=" text-gray-700  text-sm font-bold mb-2">Student ID</div>
-        <div className=" text-gray-700  ml-3">6510742262</div>
+        <div className="text-gray-700 text-sm font-bold mb-2">Student ID</div>
+        <div className="text-gray-700 ml-3">{user_Data.student_id}</div>
       </div>
 
       {/* contact Info */}
       <div className="mt-5 my-4 w-30 text-center items-center px-1 py-1 rounded-lg font-semibold text-gray-700 bg-[#D9D9D9]">
         Contact Info
       </div>
-      <div className="mb-4 ml-2">
+      {/* <div className="mb-4 ml-2">
         <label
           htmlFor="contactPhone"
           className="block text-gray-700 text-sm font-bold mb-2"
         >
-          Contact Info
+          Contact Phone
         </label>
         <input
           type="tel"
           id="contactPhone"
+          value={contactPhone}
+          onChange={(e) => setContactPhone(e.target.value)}
           className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
-      </div>
+      </div> */}
       <div className="mb-4 ml-2">
         <label
           htmlFor="emailAddress"
@@ -46,22 +58,27 @@ const Account = () => {
         >
           Email Address
         </label>
-        <input
+        {/* <input
           type="email"
           id="emailAddress"
+          value={emailAddress}
+          onChange={(e) => setEmailAddress(e.target.value)}
           className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
+        /> */}
+        <div className="mb-4">
+          <div className="text-gray-700 ml-3">{user_Data.email}</div>
+        </div>
       </div>
 
       {/* button */}
-      <div className="flex justify-center mt-10">
+      {/* <div className="flex justify-center mt-10">
         <button
           className="bg-[#8A2A2B] hover:bg-[#6b2021] text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-10 justify-center"
           type="button"
         >
           Save Change
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
