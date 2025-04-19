@@ -8,7 +8,7 @@ const Reserve = () => {
       {/* header */}
       <div className="border p-4 flex justify-between items-center">
         <div className="text-center border-r pr-4 flex flex-col gap-2">
-          <div className="text-sm">Wednesday</div>
+          {/* <div className="text-sm">Wednesday</div> */}
           <div className="text-2xl font-bold">9</div>
           <div className="text-sm">October</div>
         </div>
