@@ -48,9 +48,9 @@ const MyBooking = () => {
             </div>
             <div>
               <h2 className="text-xl font-semibold mb-1">{item.roomNameEN}</h2>
-              <p className="text-gray-500 flex items-center gap-2 text-sm">
+              {/* <p className="text-gray-500 flex items-center gap-2 text-sm">
                 <FaMapMarkerAlt /> {item.location || "-"}
-              </p>
+              </p> */}
             </div>
           </div>
 
@@ -103,12 +103,12 @@ const MyBooking = () => {
           <div className="mt-6 text-gray-600 text-sm mb-24">
             <p>กฎการยืนยันการใช้งาน :</p>
           </div>
-          <div className="flex items-center gap-4 mb-5">
+          {/* <div className="flex items-center gap-4 mb-5">
             <HiUsers />
             <span className="bg-[#FED141] px-3 py-0.5 rounded-md text-sm">
               {item.roomCapacity || "-"}
             </span>
-          </div>
+          </div> */}
 
           <div className="-mx-6 border-b"></div>
 
