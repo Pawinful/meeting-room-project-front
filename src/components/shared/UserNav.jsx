@@ -99,7 +99,11 @@ const UserNav = () => {
             >
               <MdAccountCircle /> Account
             </Link>
-            <Link to="/login" className="text-lg flex items-center gap-3">
+            <Link
+              to="/login"
+              onClick={handleLogout}
+              className="text-lg flex items-center gap-3"
+            >
               <IoLogOutSharp /> Log out
             </Link>
           </div>
