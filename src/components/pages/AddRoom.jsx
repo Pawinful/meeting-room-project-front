@@ -55,10 +55,27 @@ const AddRoom = () => {
               </div>
 
               <div>
+                <label className="font-bold block mb-2">ชั้น / ห้อง</label>
+                <input
+                  className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  type="text"
+                />
+              </div>
+
+              <div>
+                <label className="font-bold block mb-2">ขนาดห้อง</label>
+                <input
+                  className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  type="text"
+                />
+              </div>
+
+              <div>
                 <label className="font-bold block mb-2">จำนวนที่นั่ง</label>
-                <select className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300">
-                  <option></option>
-                </select>
+                <input
+                  className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  type="text"
+                />
               </div>
 
               <div>
