@@ -1,73 +1,30 @@
-import React from "react";
+import moment from "moment";
+import "moment/locale/th";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-const TABLE_ROWS = [
-  {
-    id: 1,
-    roomTH: "room 1",
-    roomEN: "room 1",
-    type: "Large",
-    akarn: "TU1",
-    soon: "rangsit",
-    status_: "ปกติ",
-  },
-  {
-    id: 2,
-    roomTH: "room 1",
-    roomEN: "room 1",
-    type: "Large",
-    akarn: "TU1",
-    soon: "rangsit",
-    status_: "ปกติ",
-  },
-  {
-    id: 3,
-    roomTH: "room 1",
-    roomEN: "room 1",
-    type: "Large",
-    akarn: "TU1",
-    soon: "rangsit",
-    status_: "ปิดใช้งาน",
-  },
-  {
-    id: 4,
-    roomTH: "room 1",
-    roomEN: "room 1",
-    type: "Large",
-    akarn: "TU1",
-    soon: "rangsit",
-    status_: "ปิดใช้ถาวร",
-  },
-  {
-    id: 5,
-    roomTH: "room 1",
-    roomEN: "room 1",
-    type: "Large",
-    akarn: "TU1",
-    soon: "rangsit",
-    status_: "ปิดใช้ถาวร",
-  },
-  {
-    id: 6,
-    roomTH: "room 1",
-    roomEN: "room 1",
-    type: "Large",
-    akarn: "TU1",
-    soon: "rangsit",
-    status_: "ปิดใช้ถาวร",
-  },
-  {
-    id: 7,
-    roomTH: "room 1",
-    roomEN: "room 1",
-    type: "Large",
-    akarn: "TU1",
-    soon: "rangsit",
-    status_: "ปิดใช้ถาวร",
-  },
-];
+import axios from "axios";
 
 const ManageRoom = () => {
+  const [meetingRooms, setMeetingRooms] = useState([]);
+
+  moment.locale("th");
+  const today = moment().format("HH:mm dddd, D MMMM YYYY");
+
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/rooms/getAllRoom"
+        );
+        setMeetingRooms(response.data.data);
+      } catch (error) {
+        console.error("Error fetching rooms:", error);
+      }
+    };
+
+    fetchRooms();
+  }, []);
+
   return (
     <>
       <div className="bg-[#EBEDF1] h-[92vh] flex justify-center items-center">
@@ -79,7 +36,7 @@ const ManageRoom = () => {
                 จัดการห้องประชุม
               </h1>
               <h2 className="text-[#8A2A2B] text-l font-bold md:text-left ">
-                11:00 วันเสาร์, 2 พฤศจิกายน 2567
+                {today}
               </h2>
             </div>
 
@@ -109,7 +66,7 @@ const ManageRoom = () => {
                   <th className="w-[10%] text-center p-4">ลำดับ</th>
                   <th className="w-[15%] text-center p-4">หมายเลขห้อง TH</th>
                   <th className="w-[15%] text-center p-4">หมายเลขห้อง EN</th>
-                  <th className="w-[10%] text-center p-4">ประเภทห้อง</th>
+                  <th className="w-[10%] text-center p-4">ขนาดห้อง</th>
                   <th className="w-[10%] text-center p-4">อาคาร</th>
                   <th className="w-[10%] text-center p-4">ศูนย์</th>
                   <th className="w-[10%] text-center p-4">สถานะห้อง</th>
@@ -117,27 +74,33 @@ const ManageRoom = () => {
                 </tr>
               </thead>
               <tbody>
-                {TABLE_ROWS.map(
+                {meetingRooms.map(
                   (
-                    { id, roomTH, roomEN, type, akarn, soon, status_ },
+                    { roomNameTH, roomNameEN, size, building, branch, status },
                     index
                   ) => (
                     <tr key={index} className="border-b border-gray-400">
-                      <td className="text-center px-4 py-5">{id}</td>
-                      <td className="text-center px-4 py-5">{roomTH}</td>
-                      <td className="text-center px-4 py-5">{roomEN}</td>
-                      <td className="text-center px-4 py-5">{type}</td>
-                      <td className="text-center px-4 py-5">{akarn}</td>
-                      <td className="text-center px-4 py-5">{soon}</td>
+                      <td className="text-center px-4 py-5">{index + 1}</td>
+                      <td className="text-center px-4 py-5">{roomNameTH}</td>
+                      <td className="text-center px-4 py-5">{roomNameEN}</td>
+                      <td className="text-center px-4 py-5">{size}</td>
+                      <td className="text-center px-4 py-5">{building}</td>
+                      <td className="text-center px-4 py-5">
+                        {branch === "RANGSIT"
+                          ? "Rangsit"
+                          : branch === "PATTAYA"
+                          ? "Pattaya"
+                          : branch}
+                      </td>
                       <td className="px-4 py-5 flex justify-center">
                         <div className="w-20 h-9 bg-[#3B65FB] text-white rounded-md flex items-center justify-center text-sm">
-                          {status_}
+                          {status === 0 ? "เปิดใช้งาน" : status}
                         </div>
                       </td>
                       <td className="text-center px-4 py-5">
-                        <button className="w-20 h-9 bg-[#45DB54] text-white rounded-md text-sm cursor-pointer mr-3 hover:bg-[#3ABF47]">
+                        {/* <button className="w-20 h-9 bg-[#45DB54] text-white rounded-md text-sm cursor-pointer mr-3 hover:bg-[#3ABF47]">
                           แก้ไข
-                        </button>
+                        </button> */}
                         <button className="w-20 h-9 bg-[#FC6A6C] text-white rounded-md text-sm cursor-pointer hover:bg-[#E74C4D]">
                           ลบ
                         </button>

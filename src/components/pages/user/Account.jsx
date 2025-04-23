@@ -1,23 +1,24 @@
-import React, { useState } from "react";
+import { parse } from "date-fns";
+import React, { useEffect, useState } from "react";
 import { FaCircleUser } from "react-icons/fa6";
 
-const user_Data = {
-  fullname: "Poompu Srimanut",
-  student_id: "6510742494",
-  contact: "0818814080",
-  email: "peemcnxyy@gmail.com",
-};
-
 const Account = () => {
-  const [contactPhone, setContactPhone] = useState(user_Data.contact);
-  const [emailAddress, setEmailAddress] = useState(user_Data.email);
+  // const [contactPhone, setContactPhone] = useState(user_Data.contact);
+  // const [emailAddress, setEmailAddress] = useState(user_Data.email);
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const capitalizeWords = (str) => {
+    return str
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  };
 
   return (
     <div className="max-w-xl mx-auto p-6">
-      <div className="flex flex-col items-center gap-2 mt-3">
+      {/* <div className="flex flex-col items-center gap-2 mt-3">
         <FaCircleUser className="w-20 h-20" />
         <div className="text-sm font-semibold">Edit</div>
-      </div>
+      </div> */}
 
       {/* user Info */}
       <div className="my-4 w-23 text-center items-center px-1 py-1 rounded-lg font-semibold text-gray-700 bg-[#D9D9D9]">
@@ -25,11 +26,13 @@ const Account = () => {
       </div>
       <div className="mb-4 ml-2">
         <div className="text-gray-700 text-sm font-bold mb-2">Full name</div>
-        <div className="text-gray-700 ml-3">{user_Data.fullname}</div>
+        <div className="text-gray-700 ml-3">
+          {capitalizeWords(userData.displayNameEN)}
+        </div>
       </div>
       <div className="mb-4 ml-2">
         <div className="text-gray-700 text-sm font-bold mb-2">Student ID</div>
-        <div className="text-gray-700 ml-3">{user_Data.student_id}</div>
+        <div className="text-gray-700 ml-3">{userData.username}</div>
       </div>
 
       {/* contact Info */}
@@ -66,7 +69,7 @@ const Account = () => {
           className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         /> */}
         <div className="mb-4">
-          <div className="text-gray-700 ml-3">{user_Data.email}</div>
+          <div className="text-gray-700 ml-3">{userData.email}</div>
         </div>
       </div>
 

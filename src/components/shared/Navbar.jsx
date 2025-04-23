@@ -11,6 +11,11 @@ import {
 import { CgProfile } from "react-icons/cg";
 
 const Navbar = () => {
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/adminlogin");
+  };
+
   return (
     <div className="bg-[#979797] flex flex-col h-screen w-62 sticky top-0">
       <div className="flex flex-col items-center justify-center pt-12 pb-10">
@@ -60,7 +65,7 @@ const Navbar = () => {
 
       <div className="mt-auto mb-6">
         <ul>
-          <Link to="/adminlogin">
+          <Link to="/adminlogin" onClick={handleLogout}>
             <li className="flex items-center py-4 px-6 cursor-pointer hover:bg-[#565656] transition duration-200">
               <IoLogOut className="w-7 h-7 text-white" />
               <span className="text-white text-base font-bold ml-4">

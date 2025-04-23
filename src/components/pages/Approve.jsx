@@ -1,82 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-const TABLE_ROWS = [
-  {
-    id: 1,
-    room: "Meeting room 1",
-    date: "2024-10-08",
-    time: "13:00-17:00",
-    topic: "Lorem ipsum dolor sit amet",
-    status_: "รออนุมัติ",
-    manage: "อนุมัติ",
-  },
-  {
-    id: 2,
-    room: "Meeting room 2",
-    date: "2024-10-08",
-    time: "13:00-17:00",
-    topic: "Lorem ipsum dolor sit amet",
-    status_: "รออนุมัติ",
-    manage: "อนุมัติ",
-  },
-  {
-    id: 3,
-    room: "Meeting room 3",
-    date: "2024-10-08",
-    time: "13:00-17:00",
-    topic: "Lorem ipsum dolor sit amet",
-    status_: "รออนุมัติ",
-    manage: "อนุมัติ",
-  },
-  {
-    id: 4,
-    room: "Meeting room 4",
-    date: "2024-10-08",
-    time: "13:00-17:00",
-    topic: "Lorem ipsum dolor sit amet",
-    status_: "รออนุมัติ",
-    manage: "อนุมัติ",
-  },
-  {
-    id: 5,
-    room: "Meeting room 5",
-    date: "2024-10-08",
-    time: "13:00-17:00",
-    topic: "Lorem ipsum dolor sit amet",
-    status_: "รออนุมัติ",
-    manage: "อนุมัติ",
-  },
-  {
-    id: 6,
-    room: "Meeting room 6",
-    date: "2024-10-08",
-    time: "13:00-17:00",
-    topic: "Lorem ipsum dolor sit amet",
-    status_: "รออนุมัติ",
-    manage: "อนุมัติ",
-  },
-  {
-    id: 7,
-    room: "Meeting room 7",
-    date: "2024-10-08",
-    time: "13:00-17:00",
-    topic: "Lorem ipsum dolor sit amet",
-    status_: "รออนุมัติ",
-    manage: "อนุมัติ",
-  },
-  {
-    id: 8,
-    room: "Meeting room 8",
-    date: "2024-10-08",
-    time: "13:00-17:00",
-    topic: "Lorem ipsum dolor sit amet",
-    status_: "รออนุมัติ",
-    manage: "อนุมัติ",
-  },
-];
+import moment from "moment";
+import axios from "axios";
 
 const Approve = () => {
+  const [pendingBooking, setPendingBooking] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/booking/getPendingBooking")
+      .then((res) => {
+        if (res.data.success) {
+          setPendingBooking(res.data.data);
+        }
+      });
+  }, []);
+
+  const handleApproveClick = (id) => {
+    localStorage.setItem("selectedPendingBookingId", id);
+    navigate("/admin/approvebooking");
+  };
+
   return (
     <>
       <div className="bg-[#EBEDF1] h-[92vh] flex justify-center items-center">
@@ -113,27 +58,45 @@ const Approve = () => {
                 </tr>
               </thead>
               <tbody>
-                {TABLE_ROWS.map(
-                  ({ id, room, date, time, topic, status_, manage }, index) => (
+                {pendingBooking.map(
+                  (
+                    {
+                      _id,
+                      roomNameEN,
+                      bookingStartTime,
+                      bookingEndTime,
+                      meetingDescription,
+                      bookingStatus,
+                    },
+                    index
+                  ) => (
                     <tr key={index} className="border-b border-gray-400">
-                      <td className="text-center px-4 py-5">{id}</td>
-                      <td className="text-center px-4 py-5">{room}</td>
-                      <td className="text-center px-4 py-5">{date}</td>
-                      <td className="text-center px-4 py-5">{time}</td>
+                      <td className="text-center px-4 py-5">{index + 1}</td>
+                      <td className="text-center px-4 py-5">{roomNameEN}</td>
+                      <td className="text-center px-4 py-5">
+                        {moment(bookingStartTime).format("D")}
+                      </td>
+                      <td className="text-center px-4 py-5">
+                        {moment(bookingStartTime).format("HH:mm")} -{" "}
+                        {moment(bookingEndTime).format("HH:mm")}
+                      </td>
                       <td className="text-center px-4 py-5 hidden sm:table-cell">
-                        {topic}
+                        {meetingDescription}
                       </td>
                       <td className="px-4 py-5 flex justify-center">
                         <div className="w-20 h-9 bg-[#FED141] text-white rounded-md flex items-center justify-center text-sm font-bold">
-                          {status_}
+                          {bookingStatus === "PENDING"
+                            ? "รออนุมัติ"
+                            : bookingStatus}
                         </div>
                       </td>
                       <td className="text-center px-4 py-5">
-                        <Link to="/admin/approvebooking">
-                          <button className="w-20 h-9 bg-[#3B65FB] text-white rounded-md text-sm cursor-pointer hover:bg-[#2650E6]">
-                            {manage}
-                          </button>
-                        </Link>
+                        <button
+                          className="w-20 h-9 bg-[#3B65FB] text-white rounded-md text-sm cursor-pointer hover:bg-[#2650E6]"
+                          onClick={() => handleApproveClick(_id)}
+                        >
+                          อนุมัติ
+                        </button>
                       </td>
                     </tr>
                   )

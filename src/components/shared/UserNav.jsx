@@ -77,7 +77,7 @@ const UserNav = () => {
           >
             <FaCalendarCheck /> My Booking
           </Link>
-          <div className="text-lg font-semibold py-3 flex items-center gap-3">
+          {/* <div className="text-lg font-semibold py-3 flex items-center gap-3">
             Overview
           </div>
           <Link
@@ -85,7 +85,7 @@ const UserNav = () => {
             className="text-lg py-3 flex items-center gap-3"
           >
             <FaCalendarAlt /> Room Status
-          </Link>
+          </Link> */}
           <div className="text-lg font-semibold py-3 flex items-center gap-3">
             Setting
           </div>

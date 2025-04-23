@@ -34,7 +34,7 @@ while (current.isBefore(endDate)) {
 const holidays = [...last31Days, ...sundays, "2025-03-30", "2025-03-31"];
 
 const bookingStatus = {
-  "ENGR 504": {
+  "ENGR 409": {
     "2025-03-31 10:00": "pending",
     "2025-03-31 11:00": "pending",
     "2025-03-31 15:03": "booked",
@@ -46,6 +46,12 @@ const bookingStatus = {
     "2025-04-02 11:00": "booked",
     "2025-04-02 12:00": "booked",
     "2025-04-02 13:00": "booked",
+    "2025-04-26 09:00": "pending",
+    "2025-04-26 10:00": "pending",
+    "2025-04-26 11:00": "pending",
+    "2025-05-01 09:00": "pending",
+    "2025-05-01 10:00": "pending",
+    "2025-05-01 11:00": "pending",
   },
 };
 
@@ -202,9 +208,25 @@ const BookingCalendar = ({ roomName }) => {
 
 const RoomInfo = () => {
   const [roomData, setRoomData] = useState(null);
+  // const [roomOngoingBooking, setRoomOngoingBooking] = useState([]);
+  // const bookingStatus = {};
+
+  // roomOngoingBooking.forEach((item) => {
+  //   const room = item.roomNameEN;
+  //   const status = item.bookingStatus.toLowerCase();
+
+  //   if (!bookingStatus[room]) {
+  //     bookingStatus[room] = {};
+  //   }
+
+  //   item.bookingTime.forEach((time) => {
+  //     bookingStatus[room][time] = status;
+  //   });
+  // });
 
   useEffect(() => {
     const roomId = localStorage.getItem("selectedRoomId");
+
     if (roomId) {
       axios
         .get("http://localhost:3000/api/rooms/getRoom/" + roomId)

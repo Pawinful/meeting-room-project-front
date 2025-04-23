@@ -57,6 +57,7 @@ const Reserve = () => {
       customerDepartment: userData.department,
       customerEmail: userData.email,
       bookingStartTime: selectedTimes[0],
+      bookingTime: selectedTimes,
       bookingEndTime: finishedTimeRaw,
       requireApprove: true,
     };

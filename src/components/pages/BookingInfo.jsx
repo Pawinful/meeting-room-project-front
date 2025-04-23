@@ -1,95 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiChevronLeft } from "react-icons/fi";
-
-const TABLE_ROWS = [
-  {
-    id: 1,
-    room: "Meeting Room 1",
-    date: "2024-10-08",
-    timeStart: "10:00",
-    timeEnd: "11:00",
-    topic: "ตัวสอบกลางภาค",
-    details: "Lorem ipsum dolor sit amet",
-    studentId: "6510742478",
-    major: "Soft-en",
-    email: "user@gmail.com",
-    status_: "อนุมัติ",
-  },
-  {
-    id: 2,
-    room: "Meeting room 2",
-    date: "2024-10-08",
-    timeStart: "10:00",
-    timeEnd: "11:00",
-    topic: "ตัวสอบกลางภาค",
-    details: "Lorem ipsum dolor sit amet",
-    studentId: "6510742478",
-    major: "Soft-en",
-    email: "user@gmail.com",
-    status_: "ไม่อนุมัติ",
-  },
-  {
-    id: 3,
-    room: "Meeting room 3",
-    date: "2024-10-08",
-    timeStart: "10:00",
-    timeEnd: "11:00",
-    topic: "ตัวสอบกลางภาค",
-    details: "Lorem ipsum dolor sit amet",
-    studentId: "6510742478",
-    major: "Soft-en",
-    email: "user@gmail.com",
-    status_: "ยกเลิก",
-  },
-  {
-    id: 4,
-    room: "Meeting room 4",
-    date: "2024-10-08",
-    timeStart: "10:00",
-    timeEnd: "11:00",
-    topic: "ตัวสอบกลางภาค",
-    details: "Lorem ipsum dolor sit amet",
-    studentId: "6510742478",
-    major: "Soft-en",
-    email: "user@gmail.com",
-    status_: "ยกเลิก",
-  },
-  {
-    id: 5,
-    room: "Meeting room 5",
-    date: "2024-10-08",
-    timeStart: "10:00",
-    timeEnd: "11:00",
-    topic: "ตัวสอบกลางภาค",
-    details: "Lorem ipsum dolor sit amet",
-    studentId: "6510742478",
-    major: "Soft-en",
-    email: "user@gmail.com",
-    status_: "ยกเลิก",
-  },
-  {
-    id: 6,
-    room: "Meeting room 6",
-    date: "2024-10-08",
-    timeStart: "10:00",
-    timeEnd: "11:00",
-    topic: "ตัวสอบกลางภาค",
-    details: "Lorem ipsum dolor sit amet",
-    studentId: "6510742478",
-    major: "Soft-en",
-    email: "user@gmail.com",
-    status_: "ยกเลิก",
-  },
-];
+import axios from "axios";
+import moment from "moment";
 
 const statusColor = (status_) => {
   switch (status_) {
-    case "อนุมัติ":
+    case "APPROVE":
       return "#45DB54";
-    case "ไม่อนุมัติ":
-    case "ยกเลิก":
+    case "DECLINE":
+    case "CANCEL":
       return "#FC6A6C";
-    case "รออนุมัติ":
+    case "PENDING":
     default:
       return "#FED141";
   }
@@ -97,6 +18,22 @@ const statusColor = (status_) => {
 
 const BookingInfo = () => {
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const [bookingInfo, setBookingInfo] = useState([]);
+
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/booking/getAllBooking"
+        );
+        setBookingInfo(response.data.data);
+      } catch (error) {
+        console.error("Error fetching rooms:", error);
+      }
+    };
+
+    fetchRooms();
+  }, []);
 
   return (
     <>
@@ -131,35 +68,51 @@ const BookingInfo = () => {
                 </tr>
               </thead>
               <tbody>
-                {TABLE_ROWS.map((row) => (
-                  <tr key={row.id} className="border-b border-gray-400">
-                    <td className="text-center px-4 py-5">{row.id}</td>
-                    <td className="text-center px-4 py-5">{row.room}</td>
-                    <td className="text-center px-4 py-5">{row.date}</td>
-                    <td className="text-center px-4 py-5">
-                      {row.timeStart} - {row.timeEnd}
-                    </td>
-                    <td className="text-center px-4 py-5 hidden sm:table-cell">
-                      {row.topic}
-                    </td>
-                    <td className="px-4 py-5 flex justify-center">
-                      <div
-                        className="w-20 h-9 text-white rounded-md flex items-center justify-center text-sm font-bold"
-                        style={{ backgroundColor: statusColor(row.status_) }}
-                      >
-                        {row.status_}
-                      </div>
-                    </td>
-                    <td className="text-center px-4 py-5">
-                      <button
-                        onClick={() => setSelectedBooking(row)}
-                        className="w-20 h-9 bg-[#3B65FB] text-white rounded-md text-sm cursor-pointer hover:bg-[#2650E6]"
-                      >
-                        แสดง
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {bookingInfo.map(
+                  (
+                    {
+                      roomNameEN,
+                      bookingEndTime,
+                      bookingStatus,
+                      bookingSartTime,
+                      meetingDescription,
+                    },
+                    index
+                  ) => (
+                    <tr key={index} className="border-b border-gray-400">
+                      <td className="text-center px-4 py-5">{index + 1}</td>
+                      <td className="text-center px-4 py-5">{roomNameEN}</td>
+                      <td className="text-center px-4 py-5">
+                        {moment(bookingSartTime).format("D MMMM YYYY")}
+                      </td>
+                      <td className="text-center px-4 py-5">
+                        {moment(bookingSartTime).format("HH:mm")} -{" "}
+                        {moment(bookingEndTime).format("HH:mm")}
+                      </td>
+                      <td className="text-center px-4 py-5 hidden sm:table-cell">
+                        {meetingDescription}
+                      </td>
+                      <td className="px-4 py-5 flex justify-center">
+                        <div
+                          className="w-20 h-9 text-white rounded-md flex items-center justify-center text-sm font-bold"
+                          style={{
+                            backgroundColor: statusColor(bookingStatus),
+                          }}
+                        >
+                          {bookingStatus}
+                        </div>
+                      </td>
+                      <td className="text-center px-4 py-5">
+                        <button
+                          onClick={() => setSelectedBooking(bookingInfo[index])}
+                          className="w-20 h-9 bg-[#3B65FB] text-white rounded-md text-sm cursor-pointer hover:bg-[#2650E6]"
+                        >
+                          แสดง
+                        </button>
+                      </td>
+                    </tr>
+                  )
+                )}
               </tbody>
             </table>
           </div>
@@ -185,34 +138,42 @@ const BookingInfo = () => {
 
             <hr className="mb-4 -mx-10" />
             <p>
-              <b>ห้องประชุม:</b> {selectedBooking.room}
+              <b>ห้องประชุม:</b> {selectedBooking.roomNameEN}
             </p>
             <p>
-              <b>ชื่อการประชุม:</b> {selectedBooking.topic}
+              <b>ชื่อการประชุม:</b> {selectedBooking.meetingName}
             </p>
             <p>
-              <b>รายละเอียดการประชุม:</b> {selectedBooking.details}
+              <b>รายละเอียดการประชุม:</b> {selectedBooking.meetingDescription}
             </p>
             <p>
-              <b>Student ID:</b> {selectedBooking.studentId}
+              <b>Student ID:</b> {selectedBooking.customerUsername}
             </p>
             <p>
-              <b>สาขา:</b> {selectedBooking.major}
+              <b>สาขา:</b> {selectedBooking.customerDepartment}
             </p>
             <p>
-              <b>E-Mail:</b> {selectedBooking.email}
+              <b>E-Mail:</b> {selectedBooking.customerEmail}
             </p>
             <p>
-              <b>วันที่:</b> {selectedBooking.date}
+              <b>วันที่:</b>{" "}
+              {moment(selectedBooking.bookingSartTime).format("D MMMM YYYY")}
             </p>
             <p>
-              <b>เวลาเริ่มต้น:</b> {selectedBooking.timeStart}
+              <b>เวลาเริ่มต้น:</b>{" "}
+              {moment(selectedBooking.bookingStartTime).format("HH:mm")}
             </p>
             <p>
-              <b>เวลาสิ้นสุด:</b> {selectedBooking.timeEnd}
+              <b>เวลาสิ้นสุด:</b>{" "}
+              {moment(selectedBooking.bookingEndTime).format("HH:mm")}
             </p>
             <p>
-              <b>สถานะ:</b> {selectedBooking.status_}
+              <b>สถานะ:</b>{" "}
+              {selectedBooking.bookingStatus === "PENDING"
+                ? "Pending"
+                : selectedBooking.bookingStatus === "APPROVE"
+                ? "Approve"
+                : selectedBooking.bookingStatus}
             </p>
           </div>
         </div>

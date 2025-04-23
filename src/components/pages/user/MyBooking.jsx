@@ -48,9 +48,9 @@ const MyBooking = () => {
             </div>
             <div>
               <h2 className="text-xl font-semibold mb-1">{item.roomNameEN}</h2>
-              {/* <p className="text-gray-500 flex items-center gap-2 text-sm">
-                <FaMapMarkerAlt /> {item.location || "-"}
-              </p> */}
+              <p className="text-gray-500 flex items-center gap-2 text-sm">
+                Meeting Name : {item.meetingName}
+              </p>
             </div>
           </div>
 
@@ -90,7 +90,11 @@ const MyBooking = () => {
                     {item.customerUsername}
                   </td>
                   <td className="border border-gray-400 px-2 py-3 text-sm">
-                    {item.bookingStatus}
+                    {item.bookingStatus === "PENDING"
+                      ? "Pending"
+                      : item.bookingStatus === "APPROVE"
+                      ? "Approve"
+                      : item.bookingStatus}{" "}
                   </td>
                   <td className="border border-gray-400 px-2 py-3 text-sm">
                     {moment(item.createdAt).format("D MMM YYYY HH:mm:ss")}

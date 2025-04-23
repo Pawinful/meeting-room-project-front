@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import roomImage from "../../Assets/image409.png";
 
 const Home = () => {
   const [meetingRooms, setMeetingRooms] = useState([]);
@@ -28,8 +29,9 @@ const Home = () => {
     return acc;
   }, {});
 
-  const handleRoomClick = (roomId) => {
-    localStorage.setItem("selectedRoomId", roomId);
+  const handleRoomClick = (room) => {
+    localStorage.setItem("selectedRoomId", room._id);
+    localStorage.setItem("selectedRoomNameEN", room.roomNameEN);
   };
 
   return (
@@ -56,18 +58,31 @@ const Home = () => {
           <div key={index} className="relative w-full md:w-1/2">
             {/* ชื่อศูนย์ */}
             <div className="bg-[#8A2A2B] text-white px-6 py-4 pb-12 rounded-md text-lg font-semibold relative">
-              {index + 1}. {branchName}
+              {index + 1}.{" "}
+              {branchName === "RANGSIT"
+                ? "Rangsit Campus"
+                : branchName === "PATTAYA"
+                ? "Pattaya Campus"
+                : branchName}
             </div>
 
             {/* ทุกห้องประชุม */}
-            <div className="p-6 grid grid-cols-2 gap-8 relative mt-[-55px] max-[350px]:p-5 max-[350px]:gap-6">
+            <div
+              className="p-6 grid grid-cols-2 gap-8 relative mt-[-55px] max-[350px]:p-5 max-[350px]:gap-6"
+              name="roomBadge"
+            >
               {rooms.map((room) => (
                 <Link
                   to="/roominfo"
                   key={room._id}
-                  onClick={() => handleRoomClick(room._id)}
+                  onClick={() => handleRoomClick(room)}
                 >
-                  <div className="bg-[#A6A6A6] w-full h-36 rounded-lg shadow-md relative cursor-pointer">
+                  <div
+                    className="bg-[#A6A6A6] w-full h-36 rounded-lg shadow-md relative cursor-pointer"
+                    style={{
+                      backgroundImage: `url(/Users/pumipu/Meeting-Room-Final/meeting-room-project-front/src/components/Assets/${room.roomImage})`,
+                    }}
+                  >
                     <span className="absolute bottom-5 left-0 w-full text-center text-sm font-semibold text-white">
                       {room.roomNameEN}
                     </span>

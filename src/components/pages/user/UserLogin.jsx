@@ -23,6 +23,7 @@ function Login() {
 
       if (response.data.success) {
         localStorage.setItem("userData", JSON.stringify(response.data.data[0]));
+        localStorage.setItem("token", "user");
         setMessage("Login สำเร็จ");
 
         setTimeout(() => {
