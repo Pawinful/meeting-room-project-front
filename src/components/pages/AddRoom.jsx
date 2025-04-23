@@ -17,10 +17,9 @@ const AddRoom = () => {
     status: 0,
   });
 
-  const [image, setImage] = useState(null); // สำหรับเก็บข้อมูลไฟล์
+  const [image, setImage] = useState(null);
   const navigate = useNavigate();
 
-  // Handle change ของ input fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAddRoomData((prevData) => ({
@@ -29,17 +28,14 @@ const AddRoom = () => {
     }));
   };
 
-  // Handle change ของไฟล์ (รูปภาพ)
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setImage(file); // เก็บข้อมูลไฟล์ที่เลือก
+    setImage(file);
   };
 
-  // ส่งข้อมูลไปยัง API
   const handleSave = async () => {
     const formData = new FormData();
 
-    // เก็บข้อมูลจาก input fields
     formData.append("roomNameTH", addRoomData.roomNameTH);
     formData.append("roomNameEN", addRoomData.roomNameEN);
     formData.append("branch", addRoomData.branch);
@@ -51,9 +47,8 @@ const AddRoom = () => {
     formData.append("note", addRoomData.note);
     formData.append("status", addRoomData.status);
 
-    // ส่งไฟล์ไปยัง backend แต่จะรับแค่ชื่อไฟล์
     if (image) {
-      formData.append("image", image); // ส่งไฟล์ที่เลือกไป
+      formData.append("image", image);
     }
 
     try {
@@ -62,7 +57,6 @@ const AddRoom = () => {
         formData
       );
       if (response.data.success) {
-        // Clear form and navigate
         clearForm();
         navigate("/admin/manageroom");
       } else {
@@ -74,7 +68,6 @@ const AddRoom = () => {
     }
   };
 
-  // Clear form after saving
   const clearForm = () => {
     setAddRoomData({
       roomNameTH: "",
@@ -88,7 +81,7 @@ const AddRoom = () => {
       branch: "RANGSIT",
       status: 0,
     });
-    setImage(null); // Clear image
+    setImage(null);
   };
 
   return (
@@ -105,7 +98,7 @@ const AddRoom = () => {
             <div className="bg-[#D9D9D9] w-90 h-65">
               {image && (
                 <img
-                  src={URL.createObjectURL(image)} // แสดงภาพตัวอย่าง
+                  src={URL.createObjectURL(image)}
                   alt="Uploaded"
                   className="w-full h-full object-cover"
                 />
