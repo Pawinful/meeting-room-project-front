@@ -43,9 +43,8 @@ const BookingCalendar = ({ roomName }) => {
       try {
         const res = await axios.get(
           "http://localhost:3000/api/booking/getRoomBooking",
-          {
-            roomNameEN: roomNameEN,
-          }
+
+          { roomNameEN: roomNameEN }
         );
 
         if (res.data.success) {

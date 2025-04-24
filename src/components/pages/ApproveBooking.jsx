@@ -33,7 +33,7 @@ const ApproveBooking = () => {
         `http://localhost:3000/api/booking/deleteBooking/${bookingData._id}`
       );
       alert("ลบการจองสำเร็จแล้ว");
-      window.location.href = "/admin"; // หรือเปลี่ยนเส้นทางตามต้องการ
+      window.location.href = "/admin";
     } catch (error) {
       console.error("Error deleting booking:", error);
       alert("เกิดข้อผิดพลาดในการลบการจอง");
@@ -53,7 +53,7 @@ const ApproveBooking = () => {
         payload
       );
       alert("อนุมัติการจองสำเร็จ");
-      window.location.href = "/admin"; // หรือเปลี่ยนเส้นทางตามต้องการ
+      window.location.href = "/admin";
     } catch (error) {
       console.error("Error approving booking:", error);
       alert("เกิดข้อผิดพลาดในการอนุมัติการจอง");
