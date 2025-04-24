@@ -22,6 +22,44 @@ const ApproveBooking = () => {
     }
   }, []);
 
+  const handleReject = async () => {
+    const confirmDelete = window.confirm(
+      "คุณแน่ใจหรือไม่ว่าต้องการไม่อนุมัติการจองนี้?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(
+        `http://localhost:3000/api/booking/deleteBooking/${bookingData._id}`
+      );
+      alert("ลบการจองสำเร็จแล้ว");
+      window.location.href = "/admin"; // หรือเปลี่ยนเส้นทางตามต้องการ
+    } catch (error) {
+      console.error("Error deleting booking:", error);
+      alert("เกิดข้อผิดพลาดในการลบการจอง");
+    }
+  };
+
+  const handleApprove = async () => {
+    try {
+      const payload = {
+        _id: bookingData._id,
+        approver: "admin",
+        bookingStatus: "APPROVE",
+      };
+
+      await axios.put(
+        "http://localhost:3000/api/booking/approveBooking",
+        payload
+      );
+      alert("อนุมัติการจองสำเร็จ");
+      window.location.href = "/admin"; // หรือเปลี่ยนเส้นทางตามต้องการ
+    } catch (error) {
+      console.error("Error approving booking:", error);
+      alert("เกิดข้อผิดพลาดในการอนุมัติการจอง");
+    }
+  };
+
   if (!bookingData) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -104,10 +142,16 @@ const ApproveBooking = () => {
 
           {/* Button */}
           <div className="flex justify-end gap-4 mt-8">
-            <button className="py-1.5 w-28 font-medium bg-red-700 hover:bg-red-800 text-white rounded-md cursor-pointer">
+            <button
+              className="py-1.5 w-28 font-medium bg-red-700 hover:bg-red-800 text-white rounded-md cursor-pointer"
+              onClick={handleReject}
+            >
               ไม่อนุมัติ
             </button>
-            <button className="py-1.5 w-28 font-medium bg-green-700 hover:bg-green-800 text-white rounded-md cursor-pointer">
+            <button
+              className="py-1.5 w-28 font-medium bg-green-700 hover:bg-green-800 text-white rounded-md cursor-pointer"
+              onClick={handleApprove}
+            >
               อนุมัติ
             </button>
           </div>

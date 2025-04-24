@@ -74,7 +74,7 @@ const BookingInfo = () => {
                       roomNameEN,
                       bookingEndTime,
                       bookingStatus,
-                      bookingSartTime,
+                      bookingStartTime,
                       meetingDescription,
                     },
                     index
@@ -83,10 +83,10 @@ const BookingInfo = () => {
                       <td className="text-center px-4 py-5">{index + 1}</td>
                       <td className="text-center px-4 py-5">{roomNameEN}</td>
                       <td className="text-center px-4 py-5">
-                        {moment(bookingSartTime).format("D MMMM YYYY")}
+                        {moment(bookingStartTime).format("D MMMM YYYY")}
                       </td>
                       <td className="text-center px-4 py-5">
-                        {moment(bookingSartTime).format("HH:mm")} -{" "}
+                        {moment(bookingStartTime).format("HH:mm")} -{" "}
                         {moment(bookingEndTime).format("HH:mm")}
                       </td>
                       <td className="text-center px-4 py-5 hidden sm:table-cell">
@@ -157,7 +157,7 @@ const BookingInfo = () => {
             </p>
             <p>
               <b>วันที่:</b>{" "}
-              {moment(selectedBooking.bookingSartTime).format("D MMMM YYYY")}
+              {moment(selectedBooking.bookingStartTime).format("D MMMM YYYY")}
             </p>
             <p>
               <b>เวลาเริ่มต้น:</b>{" "}

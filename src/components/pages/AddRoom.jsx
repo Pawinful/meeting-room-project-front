@@ -34,37 +34,33 @@ const AddRoom = () => {
   };
 
   const handleSave = async () => {
-    const formData = new FormData();
-
-    formData.append("roomNameTH", addRoomData.roomNameTH);
-    formData.append("roomNameEN", addRoomData.roomNameEN);
-    formData.append("branch", addRoomData.branch);
-    formData.append("building", addRoomData.building);
-    formData.append("seat", addRoomData.seat);
-    formData.append("size", addRoomData.size);
-    formData.append("location", addRoomData.location);
-    formData.append("capacity", addRoomData.capacity);
-    formData.append("note", addRoomData.note);
-    formData.append("status", addRoomData.status);
-
-    if (image) {
-      formData.append("image", image);
+    if (!image) {
+      alert("กรุณาอัปโหลดรูปภาพ");
+      return;
     }
+
+    const roomData = {
+      ...addRoomData,
+      seat: parseInt(addRoomData.seat, 10),
+      status: parseInt(addRoomData.status, 10),
+      roomImage: image.name,
+    };
 
     try {
       const response = await axios.post(
         "http://localhost:3000/api/rooms/addRoom",
-        formData
+        roomData
       );
+
       if (response.data.success) {
         clearForm();
         navigate("/admin/manageroom");
       } else {
-        alert("Failed to add room");
+        alert("ไม่สามารถเพิ่มห้องได้");
       }
     } catch (error) {
       console.error("Error uploading room:", error);
-      alert("Error uploading room");
+      alert("เกิดข้อผิดพลาดในการบันทึกห้อง");
     }
   };
 
@@ -91,7 +87,6 @@ const AddRoom = () => {
           เพิ่มห้องประชุม
         </h1>
 
-        {/* content */}
         <div className="flex flex-col xl:flex-row gap-10">
           {/* Upload Image */}
           <div className="flex flex-col pr-7">
@@ -121,92 +116,27 @@ const AddRoom = () => {
 
           {/* Form */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow">
-            <div>
-              <label className="font-bold block mb-2">หมายเลขห้อง TH</label>
-              <input
-                className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-                type="text"
-                name="roomNameTH"
-                value={addRoomData.roomNameTH}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div>
-              <label className="font-bold block mb-2">หมายเลขห้อง EN</label>
-              <input
-                className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-                type="text"
-                name="roomNameEN"
-                value={addRoomData.roomNameEN}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div>
-              <label className="font-bold block mb-2">อาคาร</label>
-              <input
-                className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-                type="text"
-                name="building"
-                value={addRoomData.building}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div>
-              <label className="font-bold block mb-2">ชั้น / ห้อง</label>
-              <input
-                className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-                type="text"
-                name="location"
-                value={addRoomData.location}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div>
-              <label className="font-bold block mb-2">ขนาดห้อง</label>
-              <input
-                className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-                type="text"
-                name="size"
-                value={addRoomData.size}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div>
-              <label className="font-bold block mb-2">จำนวนที่นั่ง</label>
-              <input
-                className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-                type="text"
-                name="seat"
-                value={addRoomData.seat}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div>
-              <label className="font-bold block mb-2">จำนวนคนที่แนะนำ</label>
-              <input
-                className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-                type="text"
-                name="capacity"
-                value={addRoomData.capacity}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="font-bold block mb-2">เหตุผล</label>
-              <input
-                className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-                type="text"
-                name="note"
-                value={addRoomData.note}
-                onChange={handleChange}
-              />
-            </div>
+            {[
+              { label: "หมายเลขห้อง TH", name: "roomNameTH" },
+              { label: "หมายเลขห้อง EN", name: "roomNameEN" },
+              { label: "อาคาร", name: "building" },
+              { label: "ชั้น / ห้อง", name: "location" },
+              { label: "ขนาดห้อง", name: "size" },
+              { label: "จำนวนที่นั่ง", name: "seat" },
+              { label: "จำนวนคนที่แนะนำ", name: "capacity" },
+              { label: "เหตุผล", name: "note" },
+            ].map((field) => (
+              <div key={field.name}>
+                <label className="font-bold block mb-2">{field.label}</label>
+                <input
+                  className="w-full p-3 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  type="text"
+                  name={field.name}
+                  value={addRoomData[field.name]}
+                  onChange={handleChange}
+                />
+              </div>
+            ))}
 
             <div>
               <label className="font-bold block mb-2">สถานะห้อง</label>
@@ -236,7 +166,7 @@ const AddRoom = () => {
           </div>
         </div>
 
-        {/* Button */}
+        {/* Buttons */}
         <div className="flex justify-end gap-4 mt-8">
           <button
             onClick={() => navigate("/admin/manageroom")}

@@ -33,29 +33,48 @@ while (current.isBefore(endDate)) {
 
 const holidays = [...last31Days, ...sundays, "2025-03-30", "2025-03-31"];
 
-const bookingStatus = {
-  "ENGR 409": {
-    "2025-03-31 10:00": "pending",
-    "2025-03-31 11:00": "pending",
-    "2025-03-31 15:03": "booked",
-    "2025-03-31 15:00": "booked",
-    "2025-04-01 09:00": "booked",
-    "2025-04-01 10:00": "booked",
-    "2025-04-01 13:00": "booked",
-    "2025-04-01 16:00": "booked",
-    "2025-04-02 11:00": "booked",
-    "2025-04-02 12:00": "booked",
-    "2025-04-02 13:00": "booked",
-    "2025-04-26 09:00": "pending",
-    "2025-04-26 10:00": "pending",
-    "2025-04-26 11:00": "pending",
-    "2025-05-01 09:00": "pending",
-    "2025-05-01 10:00": "pending",
-    "2025-05-01 11:00": "pending",
-  },
-};
-
 const BookingCalendar = ({ roomName }) => {
+  const roomNameEN = localStorage.getItem("selectedRoomNameEN");
+  const [bookingData, setBookingData] = useState([]);
+  const payload = { roomNameEN: roomNameEN };
+
+  useEffect(() => {
+    const fetchBookingData = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:3000/api/booking/getRoomBooking",
+          {
+            roomNameEN: roomNameEN,
+          }
+        );
+
+        if (res.data.success) {
+          setBookingData(res.data.data);
+          console.log(res.data);
+        }
+      } catch (err) {
+        console.error("Error fetching booking data:", err);
+      }
+    };
+
+    fetchBookingData();
+  }, [roomNameEN]);
+
+  const bookingStatus = {};
+
+  bookingData.forEach((booking) => {
+    const room = booking.roomNameEN;
+    const status = booking.bookingStatus === "APPROVE" ? "booked" : "pending";
+
+    if (!bookingStatus[room]) {
+      bookingStatus[room] = {};
+    }
+
+    booking.bookingTime.forEach((timeSlot) => {
+      bookingStatus[room][timeSlot] = status;
+    });
+  });
+
   const [selectedTimes, setSelectedTimes] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentWeek, setCurrentWeek] = useState(
@@ -208,21 +227,6 @@ const BookingCalendar = ({ roomName }) => {
 
 const RoomInfo = () => {
   const [roomData, setRoomData] = useState(null);
-  // const [roomOngoingBooking, setRoomOngoingBooking] = useState([]);
-  // const bookingStatus = {};
-
-  // roomOngoingBooking.forEach((item) => {
-  //   const room = item.roomNameEN;
-  //   const status = item.bookingStatus.toLowerCase();
-
-  //   if (!bookingStatus[room]) {
-  //     bookingStatus[room] = {};
-  //   }
-
-  //   item.bookingTime.forEach((time) => {
-  //     bookingStatus[room][time] = status;
-  //   });
-  // });
 
   useEffect(() => {
     const roomId = localStorage.getItem("selectedRoomId");
