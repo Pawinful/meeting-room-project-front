@@ -41,12 +41,11 @@ const BookingCalendar = ({ roomName }) => {
   useEffect(() => {
     const fetchBookingData = async () => {
       try {
-        const res = await axios.get(
+        const res = await axios.post(
           "http://localhost:3000/api/booking/getRoomBooking",
 
-          { roomNameEN: roomNameEN }
+          { roomNameEN: "ENGR 409" }
         );
-
         if (res.data.success) {
           setBookingData(res.data.data);
           console.log(res.data);
