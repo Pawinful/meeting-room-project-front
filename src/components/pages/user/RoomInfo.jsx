@@ -44,7 +44,7 @@ const BookingCalendar = ({ roomName }) => {
         const res = await axios.post(
           "http://localhost:3000/api/booking/getRoomBooking",
 
-          { roomNameEN: "ENGR 409" }
+          payload
         );
         if (res.data.success) {
           setBookingData(res.data.data);
@@ -247,7 +247,12 @@ const RoomInfo = () => {
     <div className="max-w-2xl mx-auto p-6 max-[350px]:p-5">
       <div className="flex gap-12 justify-center max-[350px]:gap-3">
         <div className="flex flex-col items-center">
-          <div className="bg-[#A6A6A6] w-32 h-32 rounded-lg mb-4"></div>
+          <div
+            className="w-32 h-32 rounded-lg mb-4 bg-cover bg-center bg-gray-200"
+            style={{
+              backgroundImage: `url('/assets/${roomData.roomImage}')`,
+            }}
+          ></div>
           <div className="px-2">
             <p className="text-xs border px-1 rounded mb-2">
               SIZE: {roomData.size}

@@ -36,6 +36,28 @@ const MyBooking = () => {
     fetchBookings();
   }, []);
 
+  const handleCancel = async (bookingId) => {
+    if (!window.confirm("Are you sure you want to cancel this booking?")) {
+      return;
+    }
+    try {
+      const response = await axios.delete(
+        "http://localhost:3000/api/booking/deleteBooking/" + bookingId
+      );
+      if (response.data.success) {
+        setData((prevData) =>
+          prevData.filter((item) => item._id !== bookingId)
+        );
+        // alert("Booking cancelled successfully.");
+      } else {
+        alert("Failed to cancel booking.");
+      }
+    } catch (error) {
+      console.error("Error cancelling booking:", error);
+      alert("An error occurred while cancelling the booking.");
+    }
+  };
+
   return (
     <div className="max-w-3xl mx-auto p-6">
       <h1 className="text-xl font-bold mb-4">My Booking</h1>
@@ -118,10 +140,13 @@ const MyBooking = () => {
 
           <div className="flex justify-end items-center mt-5">
             <div className="flex gap-3">
-              <button className="bg-[#E2E2E2] px-4 py-1 rounded-md cursor-pointer">
+              {/* <button className="bg-[#E2E2E2] px-4 py-1 rounded-md cursor-pointer">
                 Edit
-              </button>
-              <button className="bg-[#C53739] text-white px-4 py-1 rounded-md cursor-pointer">
+              </button> */}
+              <button
+                className="bg-[#C53739] text-white px-4 py-1 rounded-md cursor-pointer"
+                onClick={() => handleCancel(item._id)}
+              >
                 Cancel
               </button>
             </div>

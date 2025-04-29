@@ -27,7 +27,6 @@ const ManageRoom = () => {
   const handleDelete = async (room) => {
     const confirmDelete = window.confirm("ยืนยันที่จะลบห้องประชุมหรือไม่?");
     if (!confirmDelete) return;
-    alert(room._id);
 
     try {
       await axios.delete(
