@@ -31,7 +31,7 @@ while (current.isBefore(endDate)) {
   current.add(1, "day");
 }
 
-const holidays = [...last31Days, ...sundays, "2025-03-30", "2025-03-31"];
+const holidays = [...last31Days, ...sundays];
 
 const BookingCalendar = ({ roomName }) => {
   const roomNameEN = localStorage.getItem("selectedRoomNameEN");
@@ -48,7 +48,7 @@ const BookingCalendar = ({ roomName }) => {
         );
         if (res.data.success) {
           setBookingData(res.data.data);
-          console.log(res.data);
+          // console.log(res.data);
         }
       } catch (err) {
         console.error("Error fetching booking data:", err);

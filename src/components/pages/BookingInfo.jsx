@@ -61,7 +61,7 @@ const BookingInfo = () => {
                   <th className="w-[15%] text-center p-4">วันที่</th>
                   <th className="w-[10%] text-center p-4">เวลา</th>
                   <th className="w-[25%] text-center p-4 hidden sm:table-cell">
-                    เรื่อง
+                    ชื่อการประชุม
                   </th>
                   <th className="w-[10%] text-center p-4">สถานะ</th>
                   <th className="w-[10%] text-center p-4">จัดการ</th>
@@ -75,7 +75,7 @@ const BookingInfo = () => {
                       bookingEndTime,
                       bookingStatus,
                       bookingStartTime,
-                      meetingDescription,
+                      meetingName,
                     },
                     index
                   ) => (
@@ -90,7 +90,7 @@ const BookingInfo = () => {
                         {moment(bookingEndTime).format("HH:mm")}
                       </td>
                       <td className="text-center px-4 py-5 hidden sm:table-cell">
-                        {meetingDescription}
+                        {meetingName}
                       </td>
                       <td className="px-4 py-5 flex justify-center">
                         <div
