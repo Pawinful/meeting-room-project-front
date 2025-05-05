@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FaHome, FaMapMarkerAlt } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 import { HiUsers } from "react-icons/hi2";
 import moment from "moment";
 import "moment/locale/th";
+import { useNavigate } from "react-router-dom";
 
 const MyBooking = () => {
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -48,7 +50,6 @@ const MyBooking = () => {
         setData((prevData) =>
           prevData.filter((item) => item._id !== bookingId)
         );
-        // alert("Booking cancelled successfully.");
       } else {
         alert("Failed to cancel booking.");
       }
@@ -56,6 +57,12 @@ const MyBooking = () => {
       console.error("Error cancelling booking:", error);
       alert("An error occurred while cancelling the booking.");
     }
+  };
+
+  const handleEdit = (roomId, meetingId) => {
+    localStorage.setItem("editRoomId", roomId);
+    localStorage.setItem("editMeetingId", meetingId);
+    navigate("/roominfoedit");
   };
 
   return (
@@ -116,7 +123,7 @@ const MyBooking = () => {
                       ? "Pending"
                       : item.bookingStatus === "APPROVE"
                       ? "Approve"
-                      : item.bookingStatus}{" "}
+                      : item.bookingStatus}
                   </td>
                   <td className="border border-gray-400 px-2 py-3 text-sm">
                     {moment(item.createdAt).format("D MMM YYYY HH:mm:ss")}
@@ -129,20 +136,17 @@ const MyBooking = () => {
           <div className="mt-6 text-gray-600 text-sm mb-24">
             <p>กฎการยืนยันการใช้งาน :</p>
           </div>
-          {/* <div className="flex items-center gap-4 mb-5">
-            <HiUsers />
-            <span className="bg-[#FED141] px-3 py-0.5 rounded-md text-sm">
-              {item.roomCapacity || "-"}
-            </span>
-          </div> */}
 
           <div className="-mx-6 border-b"></div>
 
           <div className="flex justify-end items-center mt-5">
             <div className="flex gap-3">
-              {/* <button className="bg-[#E2E2E2] px-4 py-1 rounded-md cursor-pointer">
+              <button
+                className="bg-[#E2E2E2] px-4 py-1 rounded-md cursor-pointer"
+                onClick={() => handleEdit(item.roomId, item._id)}
+              >
                 Edit
-              </button> */}
+              </button>
               <button
                 className="bg-[#C53739] text-white px-4 py-1 rounded-md cursor-pointer"
                 onClick={() => handleCancel(item._id)}

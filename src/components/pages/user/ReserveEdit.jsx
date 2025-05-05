@@ -5,7 +5,7 @@ import { PiWarning } from "react-icons/pi";
 import axios from "axios";
 import moment from "moment";
 
-const Reserve = () => {
+const ReserveEdit = () => {
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState(null);
@@ -21,11 +21,11 @@ const Reserve = () => {
   useEffect(() => {
     const userDataFromStorage = localStorage.getItem("userData");
     const timesFromStorage = localStorage.getItem("selectedTimes");
-    const roomId = localStorage.getItem("selectedRoomId");
+    const RoomId = localStorage.getItem("editRoomId");
 
-    if (roomId) {
+    if (RoomId) {
       axios
-        .get("http://localhost:3000/api/rooms/getRoom/" + roomId)
+        .get("http://localhost:3000/api/rooms/getRoom/" + RoomId)
         .then((res) => {
           if (res.data.success) {
             setRoomData(res.data.data);
@@ -44,6 +44,8 @@ const Reserve = () => {
   }, []);
 
   const handleBooking = async () => {
+    const meetingId = localStorage.getItem("editMeetingId");
+
     if (!meetingName || !meetingInfo) {
       alert("กรุณากรอกชื่อและรายละเอียดการประชุม");
       return;
@@ -55,14 +57,14 @@ const Reserve = () => {
     }
 
     const bookingData = {
-      roomId: roomData._id,
+      //   roomId: roomData._id,
       meetingName: meetingName,
       meetingDescription: meetingInfo,
-      roomNameTH: roomData.roomNameTH,
-      roomNameEN: roomData.roomNameEN,
-      customerUsername: userData.username,
-      customerDepartment: userData.department,
-      customerEmail: userData.email,
+      //   roomNameTH: roomData.roomNameTH,
+      //   roomNameEN: roomData.roomNameEN,
+      //   customerUsername: userData.username,
+      //   customerDepartment: userData.department,
+      //   customerEmail: userData.email,
       bookingStartTime: selectedTimes[0],
       bookingTime: selectedTimes,
       bookingEndTime: finishedTimeRaw,
@@ -70,8 +72,8 @@ const Reserve = () => {
     };
 
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/booking/book",
+      const res = await axios.put(
+        "http://localhost:3000/api/booking/editBooking/" + meetingId,
         bookingData
       );
       if (res.data.success) {
@@ -189,11 +191,11 @@ const Reserve = () => {
           className="bg-[#8A2A2B] text-white px-5 py-1 rounded cursor-pointer"
           onClick={handleBooking}
         >
-          Booking
+          Edit
         </button>
       </div>
     </div>
   );
 };
 
-export default Reserve;
+export default ReserveEdit;

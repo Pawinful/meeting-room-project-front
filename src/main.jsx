@@ -31,6 +31,8 @@ import Login from "./components/pages/Login";
 import ApproveBooking from "./components/pages/ApproveBooking.jsx";
 import ProtectedRoutesAdmin from "./components/shared/AdminProtectedRoute.jsx";
 import ProtectedRoutes from "./components/shared/ProtectedRoute.jsx";
+import RoomInfoEdit from "./components/pages/user/RoomInfoEdit.jsx";
+import ReserveEdit from "./components/pages/user/ReserveEdit.jsx";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +56,10 @@ const router = createBrowserRouter([
             element: <RoomInfo />,
           },
           {
+            path: "/roominfoedit",
+            element: <RoomInfoEdit />,
+          },
+          {
             path: "/account",
             element: <Account />,
           },
@@ -68,6 +74,10 @@ const router = createBrowserRouter([
           {
             path: "/reserve",
             element: <Reserve />,
+          },
+          {
+            path: "/reserveedit",
+            element: <ReserveEdit />,
           },
         ],
       },
