@@ -172,8 +172,32 @@ const BookingCalendar = ({ roomName }) => {
       <div className="grid grid-cols-8">
         <div className="flex flex-col items-center">
           {times.map((time) => (
-            <span key={time} className="p-2.5 w-full text-center text-xs">
-              {time}
+            <span key={time} className="p-2.5  w-full text-center text-xs">
+              {time === "09:00"
+                ? "09:00-10:00"
+                : time === "10:00"
+                ? "10:00-11:00"
+                : time === "11:00"
+                ? "11:00-12:00"
+                : time === "12:00"
+                ? "12:00-13:00"
+                : time === "13:00"
+                ? "13:00-14:00"
+                : time === "14:00"
+                ? "14:00-15:00"
+                : time === "15:00"
+                ? "15:00-16:00"
+                : time === "16:00"
+                ? "16:00-17:00"
+                : time === "17:00"
+                ? "17:00-18:00"
+                : time === "18:00"
+                ? "18:00-19:00"
+                : time === "19:00"
+                ? "19:00-20:00"
+                : time === "20:00"
+                ? "20:00-21:00"
+                : time}
             </span>
           ))}
         </div>

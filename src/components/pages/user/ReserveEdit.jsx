@@ -77,7 +77,7 @@ const ReserveEdit = () => {
         bookingData
       );
       if (res.data.success) {
-        alert("จองห้องสำเร็จ!");
+        alert("แก้ไขการจองสำเร็จ!");
         navigate("/mybooking");
       } else {
         alert("เกิดข้อผิดพลาดในการจอง");

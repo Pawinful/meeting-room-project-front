@@ -257,13 +257,13 @@ const RoomInfoEdit = () => {
     <div className="max-w-2xl mx-auto p-6 max-[350px]:p-5">
       <div className="flex gap-12 justify-center max-[350px]:gap-3">
         <div className="flex flex-col items-center">
-          {/* <div
+          <div
             className="w-32 h-32 rounded-lg mb-4 bg-cover bg-center bg-gray-200"
             style={{
               backgroundImage: `url('/assets/${roomData.roomImage}')`,
             }}
-          ></div> */}
-          {/* <div className="px-2">
+          ></div>
+          <div className="px-2">
             <p className="text-xs border px-1 rounded mb-2">
               SIZE: {roomData.size}
             </p>
@@ -271,13 +271,13 @@ const RoomInfoEdit = () => {
               <LuUsers className="mr-2" />
               {roomData.capacity}
             </p>
-          </div> */}
+          </div>
         </div>
         <div className="space-y-4">
           <div className="text-center">
             <div className="text-lg font-bold">{roomData.roomNameEN}</div>
           </div>
-          {/* <div className="space-y-2 text-xs">
+          <div className="space-y-2 text-xs">
             <p className="flex items-center">
               <FiMapPin className="mr-2" /> {roomData.branch}
             </p>
@@ -287,7 +287,7 @@ const RoomInfoEdit = () => {
             <p className="flex items-center">
               <FiLayers className="mr-2" /> {roomData.location}
             </p>
-          </div> */}
+          </div>
         </div>
       </div>
 
