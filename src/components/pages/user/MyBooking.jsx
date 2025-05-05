@@ -148,10 +148,16 @@ const MyBooking = () => {
                 Edit
               </button>
               <button
-                className="bg-[#C53739] text-white px-4 py-1 rounded-md cursor-pointer"
+                className="bg-[#8A2A2B] text-white px-4 py-1 rounded-md cursor-pointer"
                 onClick={() => handleCancel(item._id)}
               >
                 Cancel
+              </button>
+              <button
+                className="bg-[#1A5D44] text-white px-4 py-1 rounded-md cursor-pointer"
+                onClick={() => handleCancel(item._id)}
+              >
+                Confirm
               </button>
             </div>
           </div>

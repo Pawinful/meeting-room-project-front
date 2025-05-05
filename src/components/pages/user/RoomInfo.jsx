@@ -137,7 +137,7 @@ const BookingCalendar = ({ roomName }) => {
   };
 
   return (
-    <div className="p-6 bg-white shadow-md rounded-l border max-[350px]:px-1 max-[380px]:px-2">
+    <div className="p-4 bg-white shadow-md rounded-l border max-[350px]:px-1 max-[380px]:px-1">
       {/* หัวเดือน */}
       <div className="flex items-center justify-between mb-2 border-b pb-2">
         <button onClick={handlePrevWeek} className="p-2">
@@ -152,10 +152,10 @@ const BookingCalendar = ({ roomName }) => {
       </div>
 
       {/* วัน, วันที่ */}
-      <div className="grid grid-cols-8 mb-2 text-center items-center text-xs font-medium border-b">
-        <div>Time</div>
+      <div className="grid grid-cols-[70px_repeat(7,_1fr)] mb-2 text-center items-center text-xs font-medium border-b">
+        <div className="col-span-1 text-center">Time</div>
         {days.map((day, idx) => (
-          <div key={idx} className="flex flex-col items-center">
+          <div key={idx} className="col-span-1">
             <span
             // className={clsx("p-2 rounded-full", {
             //   "bg-yellow-300": idx === 4,
@@ -169,10 +169,10 @@ const BookingCalendar = ({ roomName }) => {
       </div>
 
       {/* เวลาและปุ่มกลมๆ */}
-      <div className="grid grid-cols-8">
-        <div className="flex flex-col items-center">
+      <div className="grid grid-cols-[70px_repeat(7,_1fr)]">
+        <div className="flex flex-col items-start mt-0.5">
           {times.map((time) => (
-            <span key={time} className="p-2.5  w-full text-center text-xs">
+            <span key={time} className="py-2.5 text-xs whitespace-nowrap max-[365px]:py-2">
               {time === "09:00"
                 ? "09:00-10:00"
                 : time === "10:00"
@@ -219,7 +219,7 @@ const BookingCalendar = ({ roomName }) => {
                   onClick={() => toggleTimeSlot(day, time)}
                   disabled={isBooked || isHoliday || isPending}
                   className={clsx(
-                    "w-7 h-7 rounded-full border border-gray-300 m-1",
+                    "w-7 h-7 rounded-full border border-gray-300 m-1 max-[365px]:w-6  max-[365px]:h-6",
                     {
                       "bg-[#8A2A2B]": isBooked,
                       "bg-[#FED141]": isSelected,
