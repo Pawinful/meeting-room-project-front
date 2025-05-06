@@ -46,9 +46,13 @@ const AddRoom = () => {
       roomImage: image.name,
     };
 
+    const BASE_URL = import.meta.env.VITE_APIKEY;
+
+    console.log(BASE_URL);
+
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/rooms/addRoom",
+        `${BASE_URL}/rooms/addRoom`,
         roomData
       );
 

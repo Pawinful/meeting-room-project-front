@@ -8,7 +8,6 @@ import {
   Link,
 } from "react-router-dom";
 import "./index.css";
-import App from "./App.jsx";
 
 import Layout from "./components/shared/Layout";
 import UserLayout from "./components/shared/UserLayout.jsx";
