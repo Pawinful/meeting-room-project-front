@@ -303,7 +303,7 @@ const RoomInfo = () => {
           </div>
         </div>
         <div className="space-y-4">
-          <div className="text-center">
+          <div className="">
             <div className="text-lg font-bold">{roomData.roomNameEN}</div>
           </div>
           <div className="space-y-2 text-xs">

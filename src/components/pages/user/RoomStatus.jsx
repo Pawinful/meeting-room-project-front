@@ -144,33 +144,40 @@ const RoomStatus = () => {
       {rooms.map((room) => (
         <div key={room._id}>
           {/* Room Header */}
-          <div className="flex gap-10 mb-4">
+          <div className="flex gap-12 max-[350px]:gap-3 mb-4">
             <div className="flex flex-col items-center">
               <div
-                className="w-28 h-28 rounded-lg bg-cover bg-center bg-gray-200 mb-2"
+                className="w-32 h-32 rounded-lg mb-4 bg-cover bg-center bg-gray-200"
                 style={{
                   backgroundImage: `url('/assets/${room.roomImage}')`,
                 }}
               />
-              <p className="text-xs border px-1 rounded mb-1">
-                SIZE: {room.size}
-              </p>
-              <p className="text-xs flex items-center">
-                <LuUsers className="mr-1" />
-                {room.capacity}
-              </p>
+              <div className="px-2">
+                <p className="text-xs border px-1 rounded mb-1">
+                  SIZE: {room.size}
+                </p>
+                <p className="flex items-center justify-center text-xs">
+                  <LuUsers className="mr-2" />
+                  {room.capacity}
+                </p>
+              </div>
+
             </div>
-            <div className="flex flex-col justify-center space-y-2 text-sm">
-              <p className="text-lg font-bold">{room.roomNameEN}</p>
-              <p className="flex items-center">
-                <FiMapPin className="mr-2" /> {room.branch}
-              </p>
-              <p className="flex items-center">
-                <FiHome className="mr-2" /> {room.building}
-              </p>
-              <p className="flex items-center">
-                <FiLayers className="mr-2" /> {room.location}
-              </p>
+            <div className="space-y-4">
+              <div className="">
+                <div className="text-lg font-bold">{room.roomNameEN}</div>
+              </div>
+              <div className="space-y-2 text-xs">
+                <p className="flex items-center">
+                  <FiMapPin className="mr-2" /> {room.branch}
+                </p>
+                <p className="flex items-center">
+                  <FiHome className="mr-2" /> {room.building}
+                </p>
+                <p className="flex items-center">
+                  <FiLayers className="mr-2" /> {room.location}
+                </p>
+              </div>
             </div>
           </div>
           <div className="shadow-md rounded-l p-6 border max-[350px]:px-1 max-[390px]:px-2 mb-10">
@@ -202,7 +209,7 @@ const RoomStatus = () => {
               {/* Time Column */}
               <div className="flex flex-col items-start mt-0.5">
                 {times.map((time) => (
-                  <span key={time} className="py-2.5 text-xs whitespace-nowrap">
+                  <span key={time} className="py-2.5 text-xs whitespace-nowrap max-[395px]:py-2">
                     {`${time}-${String(Number(time.split(":")[0]) + 1).padStart(
                       2,
                       "0"
@@ -220,13 +227,13 @@ const RoomStatus = () => {
                     const status = holidays.includes(dateKey)
                       ? "holiday"
                       : bookingStatus[room.roomNameEN]?.[timeKey] ||
-                        "available";
+                      "available";
 
                     return (
                       <div
                         key={timeKey}
                         className={clsx(
-                          "w-7 h-7 rounded-full m-1 border",
+                          "w-7 h-7 rounded-full border border-gray-300 m-1 max-[395px]:w-6  max-[395px]:h-6",
                           getColor(status)
                         )}
                       ></div>
