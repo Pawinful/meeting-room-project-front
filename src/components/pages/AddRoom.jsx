@@ -3,6 +3,8 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const BASE_URL = import.meta.env.VITE_APIKEY;
+
 const AddRoom = () => {
   const [addRoomData, setAddRoomData] = useState({
     roomNameTH: "",
@@ -46,12 +48,8 @@ const AddRoom = () => {
       roomImage: image.name,
     };
 
-    const BASE_URL = import.meta.env.VITE_APIKEY;
-
-    console.log(BASE_URL);
-
     try {
-      const response = await axios.post(`${BASE_URL}/rooms/addRoom`, roomData);
+      const response = await axios.post(BASE_URL + "rooms/addRoom", roomData);
 
       if (response.data.success) {
         clearForm();

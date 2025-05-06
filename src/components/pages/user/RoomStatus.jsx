@@ -96,6 +96,8 @@ const RoomStatus = () => {
 
   const getColor = (status) => {
     switch (status) {
+      case "missed":
+        return "bg-[#F1802E]";
       case "booked":
         return "bg-[#8A2A2B]";
       case "pending":
