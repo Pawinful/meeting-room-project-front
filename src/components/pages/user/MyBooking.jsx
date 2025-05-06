@@ -155,12 +155,12 @@ const MyBooking = () => {
               >
                 Cancel
               </button>
-              <button
+              {/* <button
                 className="bg-[#1A5D44] text-white px-4 py-1 rounded-md cursor-pointer"
                 onClick={() => handleCancel(item._id)}
               >
                 Confirm
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
