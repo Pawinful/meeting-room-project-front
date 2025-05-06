@@ -14,6 +14,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 
+const BASE_URL = import.meta.env.VITE_APIKEY;
+
 const last31Days = Array.from({ length: 31 }, (_, i) =>
   moment().subtract(i, "days").format("YYYY-MM-DD")
 );
@@ -42,7 +44,7 @@ const BookingCalendar = ({ roomName }) => {
     const fetchBookingData = async () => {
       try {
         const res = await axios.post(
-          "http://localhost:3000/api/booking/getRoomBooking",
+          BASE_URL + "booking/getRoomBooking",
 
           payload
         );
@@ -137,7 +139,7 @@ const BookingCalendar = ({ roomName }) => {
   };
 
   return (
-    <div className="p-6 bg-white shadow-md rounded-l border max-[350px]:px-1 max-[380px]:px-2">
+    <div className="p-4 bg-white shadow-md rounded-l border max-[350px]:px-1 max-[380px]:px-1">
       {/* หัวเดือน */}
       <div className="flex items-center justify-between mb-2 border-b pb-2">
         <button onClick={handlePrevWeek} className="p-2">
@@ -152,10 +154,10 @@ const BookingCalendar = ({ roomName }) => {
       </div>
 
       {/* วัน, วันที่ */}
-      <div className="grid grid-cols-8 mb-2 text-center items-center text-xs font-medium border-b">
-        <div>Time</div>
+      <div className="grid grid-cols-[70px_repeat(7,_1fr)] mb-2 text-center items-center text-xs font-medium border-b">
+        <div className="col-span-1 text-center">Time</div>
         {days.map((day, idx) => (
-          <div key={idx} className="flex flex-col items-center">
+          <div key={idx} className="col-span-1">
             <span
             // className={clsx("p-2 rounded-full", {
             //   "bg-yellow-300": idx === 4,
@@ -169,11 +171,38 @@ const BookingCalendar = ({ roomName }) => {
       </div>
 
       {/* เวลาและปุ่มกลมๆ */}
-      <div className="grid grid-cols-8">
-        <div className="flex flex-col items-center">
+      <div className="grid grid-cols-[70px_repeat(7,_1fr)]">
+        <div className="flex flex-col items-start mt-0.5">
           {times.map((time) => (
-            <span key={time} className="p-2.5 w-full text-center text-xs">
-              {time}
+            <span
+              key={time}
+              className="py-2.5 text-xs whitespace-nowrap max-[365px]:py-2"
+            >
+              {time === "09:00"
+                ? "09:00-10:00"
+                : time === "10:00"
+                ? "10:00-11:00"
+                : time === "11:00"
+                ? "11:00-12:00"
+                : time === "12:00"
+                ? "12:00-13:00"
+                : time === "13:00"
+                ? "13:00-14:00"
+                : time === "14:00"
+                ? "14:00-15:00"
+                : time === "15:00"
+                ? "15:00-16:00"
+                : time === "16:00"
+                ? "16:00-17:00"
+                : time === "17:00"
+                ? "17:00-18:00"
+                : time === "18:00"
+                ? "18:00-19:00"
+                : time === "19:00"
+                ? "19:00-20:00"
+                : time === "20:00"
+                ? "20:00-21:00"
+                : time}
             </span>
           ))}
         </div>
@@ -195,7 +224,7 @@ const BookingCalendar = ({ roomName }) => {
                   onClick={() => toggleTimeSlot(day, time)}
                   disabled={isBooked || isHoliday || isPending}
                   className={clsx(
-                    "w-7 h-7 rounded-full border border-gray-300 m-1",
+                    "w-7 h-7 rounded-full border border-gray-300 m-1 max-[365px]:w-6  max-[365px]:h-6",
                     {
                       "bg-[#8A2A2B]": isBooked,
                       "bg-[#FED141]": isSelected,
@@ -241,7 +270,7 @@ const RoomInfoEdit = () => {
 
     if (roomId) {
       axios
-        .get("http://localhost:3000/api/rooms/getRoom/" + roomId)
+        .get(BASE_URL + "rooms/getRoom/" + roomId)
         .then((res) => {
           if (res.data.success) {
             setRoomData(res.data.data);

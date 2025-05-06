@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_APIKEY;
+
 const ManageRoom = () => {
   const [meetingRooms, setMeetingRooms] = useState([]);
   moment.locale("th");
@@ -11,9 +13,7 @@ const ManageRoom = () => {
 
   const fetchRooms = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/api/rooms/getAllRoom"
-      );
+      const response = await axios.get(BASE_URL + "rooms/getAllRoom");
       setMeetingRooms(response.data.data);
     } catch (error) {
       console.error("Error fetching rooms:", error);
@@ -29,9 +29,7 @@ const ManageRoom = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(
-        "http://localhost:3000/api/rooms/deleteRoom/" + room._id
-      );
+      await axios.delete(BASE_URL + "rooms/deleteRoom/" + room._id);
       fetchRooms();
     } catch (error) {
       console.error("Error deleting room:", error);

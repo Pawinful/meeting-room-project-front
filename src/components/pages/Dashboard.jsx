@@ -1,6 +1,8 @@
 import React from "react";
 import { Chart } from "react-google-charts";
 
+const BASE_URL = import.meta.env.VITE_APIKEY;
+
 const bookings = [
   {
     room: "Meeting Room 1",

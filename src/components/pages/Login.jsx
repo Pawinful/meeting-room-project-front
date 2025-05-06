@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../Assets/TSE_LOGO.png";
 
+const BASE_URL = import.meta.env.VITE_APIKEY;
+
 function Login() {
   const [userName, setUserName] = useState("");
   const [passWord, setPassWord] = useState("");
@@ -16,10 +18,7 @@ function Login() {
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/admin/login",
-        payload
-      );
+      const response = await axios.post(BASE_URL + "admin/login", payload);
 
       if (response.data.success) {
         localStorage.setItem("token", "admin");

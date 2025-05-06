@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import roomImage from "../../Assets/image409.png";
+
+const BASE_URL = import.meta.env.VITE_APIKEY;
 
 const Home = () => {
   const [meetingRooms, setMeetingRooms] = useState([]);
@@ -10,9 +11,7 @@ const Home = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/rooms/getAllRoom"
-        );
+        const response = await axios.get(BASE_URL + "rooms/getAllRoom");
         setMeetingRooms(response.data.data);
       } catch (error) {
         console.error("Error fetching rooms:", error);

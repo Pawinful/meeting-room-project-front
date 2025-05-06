@@ -3,18 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_APIKEY;
+
 const Approve = () => {
   const [pendingBooking, setPendingBooking] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/booking/getPendingBooking")
-      .then((res) => {
-        if (res.data.success) {
-          setPendingBooking(res.data.data);
-        }
-      });
+    axios.get(BASE_URL + "booking/getPendingBooking").then((res) => {
+      if (res.data.success) {
+        setPendingBooking(res.data.data);
+      }
+    });
   }, []);
 
   const handleApproveClick = (id) => {

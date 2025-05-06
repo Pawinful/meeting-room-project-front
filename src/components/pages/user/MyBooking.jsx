@@ -6,6 +6,8 @@ import moment from "moment";
 import "moment/locale/th";
 import { useNavigate } from "react-router-dom";
 
+const BASE_URL = import.meta.env.VITE_APIKEY;
+
 const MyBooking = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ const MyBooking = () => {
         }
 
         const response = await axios.get(
-          "http://localhost:3000/api/booking/getUserBooking/" + username
+          BASE_URL + "booking/getUserBooking/" + username
         );
 
         if (response.data.success) {
@@ -44,7 +46,7 @@ const MyBooking = () => {
     }
     try {
       const response = await axios.delete(
-        "http://localhost:3000/api/booking/deleteBooking/" + bookingId
+        BASE_URL + "booking/deleteBooking/" + bookingId
       );
       if (response.data.success) {
         setData((prevData) =>

@@ -51,10 +51,7 @@ const AddRoom = () => {
     console.log(BASE_URL);
 
     try {
-      const response = await axios.post(
-        `${BASE_URL}/rooms/addRoom`,
-        roomData
-      );
+      const response = await axios.post(`${BASE_URL}/rooms/addRoom`, roomData);
 
       if (response.data.success) {
         clearForm();
@@ -128,7 +125,7 @@ const AddRoom = () => {
               { label: "ขนาดห้อง", name: "size" },
               { label: "จำนวนที่นั่ง", name: "seat" },
               { label: "จำนวนคนที่แนะนำ", name: "capacity" },
-              { label: "เหตุผล", name: "note" },
+              { label: "Note", name: "note" },
             ].map((field) => (
               <div key={field.name}>
                 <label className="font-bold block mb-2">{field.label}</label>

@@ -14,6 +14,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 
+const BASE_URL = import.meta.env.VITE_APIKEY;
+
 const last31Days = Array.from({ length: 31 }, (_, i) =>
   moment().subtract(i, "days").format("YYYY-MM-DD")
 );
@@ -42,7 +44,7 @@ const BookingCalendar = ({ roomName }) => {
     const fetchBookingData = async () => {
       try {
         const res = await axios.post(
-          "http://localhost:3000/api/booking/getRoomBooking",
+          BASE_URL + "booking/getRoomBooking",
 
           payload
         );
@@ -172,7 +174,10 @@ const BookingCalendar = ({ roomName }) => {
       <div className="grid grid-cols-[70px_repeat(7,_1fr)]">
         <div className="flex flex-col items-start mt-0.5">
           {times.map((time) => (
-            <span key={time} className="py-2.5 text-xs whitespace-nowrap max-[365px]:py-2">
+            <span
+              key={time}
+              className="py-2.5 text-xs whitespace-nowrap max-[365px]:py-2"
+            >
               {time === "09:00"
                 ? "09:00-10:00"
                 : time === "10:00"
@@ -265,7 +270,7 @@ const RoomInfo = () => {
 
     if (roomId) {
       axios
-        .get("http://localhost:3000/api/rooms/getRoom/" + roomId)
+        .get(BASE_URL + "rooms/getRoom/" + roomId)
         .then((res) => {
           if (res.data.success) {
             setRoomData(res.data.data);

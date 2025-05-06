@@ -3,6 +3,8 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { format, addDays, subWeeks, addWeeks, startOfWeek } from "date-fns";
 import clsx from "clsx";
 
+const BASE_URL = import.meta.env.VITE_APIKEY;
+
 const bookingStatus = {
   "Meeting room 1": {
     "2025-03-31 09:00": "holiday",
@@ -95,12 +97,30 @@ const RoomStatus = () => {
       <div className="flex md:flex-row md:items-center justify-center mb-4">
         <div className="mr-2 max-[500px]:mt-2">Status:</div>
         <div className="grid grid-cols-4 gap-x-1 gap-y-1 md:flex md:gap-4">
-          <div className="flex items-center gap-1"><div className="w-4 h-4 rounded-full border border-gray-400"></div><div className="text-sm">ว่าง</div></div>
-          <div className="flex items-center gap-1"><div className="w-4 h-4 rounded-full bg-[#8A2A2B]"></div><div className="text-sm">ไม่ว่าง</div></div>
-          <div className="flex items-center gap-1"><div className="w-4 h-4 rounded-full bg-[#1A5D44]"></div><div className="text-sm">กำลังใช้งาน</div></div>
-          <div className="flex items-center gap-1"><div className="w-4 h-4 rounded-full bg-[#F1802E]"></div><div className="text-sm">หลุดจอง</div></div>
-          <div className="flex items-center gap-1 col-span-1"><div className="w-4 h-4 rounded-full bg-[#90DCF8]"></div><div className="text-sm">รออนุมัติ</div></div>
-          <div className="flex items-center gap-1 col-span-3"><div className="w-4 h-4 rounded-full bg-[#A6A6A6]"></div><div className="text-sm">วันหยุด / เลยเวลาการจอง</div></div>
+          <div className="flex items-center gap-1">
+            <div className="w-4 h-4 rounded-full border border-gray-400"></div>
+            <div className="text-sm">ว่าง</div>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-4 h-4 rounded-full bg-[#8A2A2B]"></div>
+            <div className="text-sm">ไม่ว่าง</div>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-4 h-4 rounded-full bg-[#1A5D44]"></div>
+            <div className="text-sm">กำลังใช้งาน</div>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-4 h-4 rounded-full bg-[#F1802E]"></div>
+            <div className="text-sm">หลุดจอง</div>
+          </div>
+          <div className="flex items-center gap-1 col-span-1">
+            <div className="w-4 h-4 rounded-full bg-[#90DCF8]"></div>
+            <div className="text-sm">รออนุมัติ</div>
+          </div>
+          <div className="flex items-center gap-1 col-span-3">
+            <div className="w-4 h-4 rounded-full bg-[#A6A6A6]"></div>
+            <div className="text-sm">วันหยุด / เลยเวลาการจอง</div>
+          </div>
         </div>
       </div>
 
@@ -110,9 +130,15 @@ const RoomStatus = () => {
           <div className="bg-white shadow-md rounded-l p-6 border max-[350px]:px-1 max-[390px]:px-2">
             {/* Month / Year */}
             <div className="flex items-center justify-between mb-2 border-b pb-2">
-              <button onClick={handlePrevWeek} className="p-2"><FiChevronLeft /></button>
-              <h4 className="text-lg font-semibold">{format(currentWeek, "MMMM yyyy")}</h4>
-              <button onClick={handleNextWeek} className="p-2"><FiChevronRight /></button>
+              <button onClick={handlePrevWeek} className="p-2">
+                <FiChevronLeft />
+              </button>
+              <h4 className="text-lg font-semibold">
+                {format(currentWeek, "MMMM yyyy")}
+              </h4>
+              <button onClick={handleNextWeek} className="p-2">
+                <FiChevronRight />
+              </button>
             </div>
 
             {/* Header row */}
@@ -131,14 +157,23 @@ const RoomStatus = () => {
               {/* เวลาแนวตั้ง */}
               <div className="flex flex-col items-start mt-0.5">
                 {times.map((time) => (
-                  <span key={time} className="py-2.5 text-xs whitespace-nowrap max-[365px]:py-2">
-                    {`${time}-${String(Number(time.split(":")[0]) + 1).padStart(2, '0')}:00`}
+                  <span
+                    key={time}
+                    className="py-2.5 text-xs whitespace-nowrap max-[365px]:py-2"
+                  >
+                    {`${time}-${String(Number(time.split(":")[0]) + 1).padStart(
+                      2,
+                      "0"
+                    )}:00`}
                   </span>
                 ))}
               </div>
               {/* ช่องแต่ละวัน */}
               {days.map((day) => (
-                <div key={format(day, "yyyy-MM-dd")} className="flex flex-col items-center">
+                <div
+                  key={format(day, "yyyy-MM-dd")}
+                  className="flex flex-col items-center"
+                >
                   {times.map((time) => {
                     const status = getStatus(roomName, day, time);
                     return (

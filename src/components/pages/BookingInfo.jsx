@@ -3,6 +3,8 @@ import { FiChevronLeft } from "react-icons/fi";
 import axios from "axios";
 import moment from "moment";
 
+const BASE_URL = import.meta.env.VITE_APIKEY;
+
 const statusColor = (status_) => {
   switch (status_) {
     case "APPROVE":
@@ -23,9 +25,7 @@ const BookingInfo = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/booking/getAllBooking"
-        );
+        const response = await axios.get(BASE_URL + "booking/getAllBooking");
         setBookingInfo(response.data.data);
       } catch (error) {
         console.error("Error fetching rooms:", error);

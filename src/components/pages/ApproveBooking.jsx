@@ -2,6 +2,8 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_APIKEY;
+
 const ApproveBooking = () => {
   const [bookingData, setBookingData] = useState(null);
 
@@ -10,7 +12,7 @@ const ApproveBooking = () => {
 
     if (bookingId) {
       axios
-        .post(`http://localhost:3000/api/booking/getBooking/${bookingId}`)
+        .post(BASE_URL + "booking/getBooking/" + bookingId)
         .then((res) => {
           if (res.data.success) {
             setBookingData(res.data.data);
@@ -29,9 +31,7 @@ const ApproveBooking = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(
-        `http://localhost:3000/api/booking/deleteBooking/${bookingData._id}`
-      );
+      await axios.delete(BASE_URL + "booking/deleteBooking/" + bookingData._id);
       alert("ลบการจองสำเร็จแล้ว");
       window.location.href = "/admin";
     } catch (error) {
@@ -48,10 +48,7 @@ const ApproveBooking = () => {
         bookingStatus: "APPROVE",
       };
 
-      await axios.put(
-        "http://localhost:3000/api/booking/approveBooking",
-        payload
-      );
+      await axios.put(BASE_URL + "booking/approveBooking", payload);
       alert("อนุมัติการจองสำเร็จ");
       window.location.href = "/admin";
     } catch (error) {

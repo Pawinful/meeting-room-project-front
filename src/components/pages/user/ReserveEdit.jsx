@@ -5,6 +5,8 @@ import { PiWarning } from "react-icons/pi";
 import axios from "axios";
 import moment from "moment";
 
+const BASE_URL = import.meta.env.VITE_APIKEY;
+
 const ReserveEdit = () => {
   const navigate = useNavigate();
 
@@ -25,7 +27,7 @@ const ReserveEdit = () => {
 
     if (RoomId) {
       axios
-        .get("http://localhost:3000/api/rooms/getRoom/" + RoomId)
+        .get(BASE_URL + "rooms/getRoom/" + RoomId)
         .then((res) => {
           if (res.data.success) {
             setRoomData(res.data.data);
@@ -73,7 +75,7 @@ const ReserveEdit = () => {
 
     try {
       const res = await axios.put(
-        "http://localhost:3000/api/booking/editBooking/" + meetingId,
+        BASE_URL + "booking/editBooking/" + meetingId,
         bookingData
       );
       if (res.data.success) {
