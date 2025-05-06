@@ -109,7 +109,7 @@ const RoomStatus = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6 max-[350px]:p-5">
-      <div className="flex md:flex-row md:items-center justify-center mb-4">
+      <div className="flex md:flex-row md:items-center justify-center mb-4 p-6">
         <div className="mr-2 max-[500px]:mt-2">Status:</div>
         <div className="grid grid-cols-4 gap-x-1 gap-y-1 md:flex md:gap-4">
           <div className="flex items-center gap-1">
