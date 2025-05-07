@@ -59,18 +59,13 @@ const ReserveEdit = () => {
     }
 
     const bookingData = {
-      //   roomId: roomData._id,
       meetingName: meetingName,
       meetingDescription: meetingInfo,
-      //   roomNameTH: roomData.roomNameTH,
-      //   roomNameEN: roomData.roomNameEN,
-      //   customerUsername: userData.username,
-      //   customerDepartment: userData.department,
-      //   customerEmail: userData.email,
       bookingStartTime: selectedTimes[0],
       bookingTime: selectedTimes,
       bookingEndTime: finishedTimeRaw,
       requireApprove: true,
+      bookingStatus: "PENDING",
     };
 
     try {
@@ -79,6 +74,17 @@ const ReserveEdit = () => {
         bookingData
       );
       if (res.data.success) {
+        if (selectedTimes.length === 1) {
+          try {
+            await axios.put(BASE_URL+"booking/approveBooking", {
+              _id: meetingId,
+              approver: "auto",
+              bookingStatus: "APPROVE",
+            });
+          } catch (approveErr) {
+            console.error("Auto-approve failed:", approveErr);
+          }
+        }
         alert("แก้ไขการจองสำเร็จ!");
         navigate("/mybooking");
       } else {

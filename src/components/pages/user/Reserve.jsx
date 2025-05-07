@@ -76,6 +76,20 @@ const Reserve = () => {
     try {
       const res = await axios.post(BASE_URL + "booking/book", bookingData);
       if (res.data.success) {
+        const bookingId = res.data.data._id;
+  
+        if (selectedTimes.length === 1 && bookingId) {
+          try {
+            await axios.put(BASE_URL+"booking/approveBooking", {
+              _id: bookingId,
+              approver: "auto",
+              bookingStatus: "APPROVE",
+            });
+          } catch (approveErr) {
+            console.error("Auto-approve failed:", approveErr);
+          }
+        }
+        
         alert("จองห้องสำเร็จ!");
         navigate("/mybooking");
       } else {

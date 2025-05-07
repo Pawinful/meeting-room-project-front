@@ -25,17 +25,15 @@ const startDate = moment();
 const endDate = moment().add(1, "month");
 
 let current = startDate.clone();
-
 while (current.isBefore(endDate)) {
   if (current.day() === 0) {
     sundays.push(current.format("YYYY-MM-DD"));
   }
   current.add(1, "day");
 }
-
 const holidays = [...last31Days, ...sundays];
 
-const BookingCalendar = ({ roomName }) => {
+const BookingCalendar = ({ roomName, editableTimes = [] }) => {
   const roomNameEN = roomName;
   const [bookingData, setBookingData] = useState([]);
   const payload = { roomNameEN: roomNameEN };
@@ -43,14 +41,9 @@ const BookingCalendar = ({ roomName }) => {
   useEffect(() => {
     const fetchBookingData = async () => {
       try {
-        const res = await axios.post(
-          BASE_URL + "booking/getRoomBooking",
-
-          payload
-        );
+        const res = await axios.post(BASE_URL + "booking/getRoomBooking", payload);
         if (res.data.success) {
           setBookingData(res.data.data);
-          // console.log(res.data);
         }
       } catch (err) {
         console.error("Error fetching booking data:", err);
@@ -61,51 +54,39 @@ const BookingCalendar = ({ roomName }) => {
   }, [roomNameEN]);
 
   const bookingStatus = {};
-
   bookingData.forEach((booking) => {
     const room = booking.roomNameEN;
     const status = booking.bookingStatus === "APPROVE" ? "booked" : "pending";
-
     if (!bookingStatus[room]) {
       bookingStatus[room] = {};
     }
-
     booking.bookingTime.forEach((timeSlot) => {
-      bookingStatus[room][timeSlot] = status;
+      if (!editableTimes.includes(timeSlot)) {
+        bookingStatus[room][timeSlot] = status;
+      }
     });
   });
 
   const [selectedTimes, setSelectedTimes] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [currentWeek, setCurrentWeek] = useState(
-    startOfWeek(new Date(), { weekStartsOn: 0 })
-  );
+  const [currentWeek, setCurrentWeek] = useState(startOfWeek(new Date(), { weekStartsOn: 0 }));
   const maxBookingHours = 3;
 
   const handlePrevWeek = () => {
-      const oneMonthAgo = moment().subtract(1, "month").startOf("week").toDate();
-      const newWeek = subWeeks(currentWeek, 1);
-  
-      if (newWeek >= oneMonthAgo) {
-        setCurrentWeek(newWeek);
-      }
-    };
+    const oneMonthAgo = moment().subtract(1, "month").startOf("week").toDate();
+    const newWeek = subWeeks(currentWeek, 1);
+    if (newWeek >= oneMonthAgo) {
+      setCurrentWeek(newWeek);
+    }
+  };
+
   const handleNextWeek = () => setCurrentWeek(addWeeks(currentWeek, 1));
 
   const days = Array.from({ length: 7 }, (_, i) => addDays(currentWeek, i));
   const times = [
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "14:00",
-    "15:00",
-    "16:00",
-    "17:00",
-    "18:00",
-    "19:00",
-    "20:00",
+    "09:00", "10:00", "11:00", "12:00", "13:00",
+    "14:00", "15:00", "16:00", "17:00", "18:00",
+    "19:00", "20:00",
   ];
 
   const toggleTimeSlot = (day, time) => {
@@ -123,7 +104,6 @@ const BookingCalendar = ({ roomName }) => {
     if (!selectedDate) setSelectedDate(dateKey);
 
     const newSelectedTimes = [...selectedTimes];
-
     if (newSelectedTimes.includes(selectedDateTime)) {
       const updated = newSelectedTimes.filter((t) => t !== selectedDateTime);
       setSelectedTimes(updated);
@@ -147,77 +127,32 @@ const BookingCalendar = ({ roomName }) => {
 
   return (
     <div className="p-4 bg-white shadow-md rounded-l border max-[350px]:px-1 max-[380px]:px-1">
-      {/* หัวเดือน */}
       <div className="flex items-center justify-between mb-2 border-b pb-2">
-        <button onClick={handlePrevWeek} className="p-2">
-          <FiChevronLeft />
-        </button>
-        <h3 className="text-lg font-semibold">
-          {format(currentWeek, "MMMM yyyy")}
-        </h3>
-        <button onClick={handleNextWeek} className="p-2">
-          <FiChevronRight />
-        </button>
+        <button onClick={handlePrevWeek} className="p-2"><FiChevronLeft /></button>
+        <h3 className="text-lg font-semibold">{format(currentWeek, "MMMM yyyy")}</h3>
+        <button onClick={handleNextWeek} className="p-2"><FiChevronRight /></button>
       </div>
 
-      {/* วัน, วันที่ */}
       <div className="grid grid-cols-[70px_repeat(7,_1fr)] mb-2 text-center items-center text-xs font-medium border-b">
         <div className="col-span-1 text-center">Time</div>
         {days.map((day, idx) => (
           <div key={idx} className="col-span-1">
-            <span
-            // className={clsx("p-2 rounded-full", {
-            //   "bg-yellow-300": idx === 4,
-            // })}
-            >
-              {format(day, "E")}
-            </span>
+            <span>{format(day, "E")}</span>
             <span className="block mb-2">{format(day, "d")}</span>
           </div>
         ))}
       </div>
 
-      {/* เวลาและปุ่มกลมๆ */}
       <div className="grid grid-cols-[70px_repeat(7,_1fr)]">
         <div className="flex flex-col items-start mt-0.5">
           {times.map((time) => (
-            <span
-              key={time}
-              className="py-2.5 text-xs whitespace-nowrap max-[365px]:py-2"
-            >
-              {time === "09:00"
-                ? "09:00-10:00"
-                : time === "10:00"
-                ? "10:00-11:00"
-                : time === "11:00"
-                ? "11:00-12:00"
-                : time === "12:00"
-                ? "12:00-13:00"
-                : time === "13:00"
-                ? "13:00-14:00"
-                : time === "14:00"
-                ? "14:00-15:00"
-                : time === "15:00"
-                ? "15:00-16:00"
-                : time === "16:00"
-                ? "16:00-17:00"
-                : time === "17:00"
-                ? "17:00-18:00"
-                : time === "18:00"
-                ? "18:00-19:00"
-                : time === "19:00"
-                ? "19:00-20:00"
-                : time === "20:00"
-                ? "20:00-21:00"
-                : time}
+            <span key={time} className="py-2.5 text-xs whitespace-nowrap max-[365px]:py-2">
+              {`${time}-${moment(time, "HH:mm").add(1, "hour").format("HH:mm")}`}
             </span>
           ))}
         </div>
         {days.map((day) => (
-          <div
-            key={format(day, "yyyy-MM-dd")}
-            className="flex flex-col items-center"
-          >
+          <div key={format(day, "yyyy-MM-dd")} className="flex flex-col items-center">
             {times.map((time) => {
               const timeKey = `${format(day, "yyyy-MM-dd")} ${time}`;
               const status = bookingStatus[roomName]?.[timeKey];
@@ -225,13 +160,14 @@ const BookingCalendar = ({ roomName }) => {
               const isPending = status === "pending";
               const isHoliday = holidays.includes(format(day, "yyyy-MM-dd"));
               const isSelected = selectedTimes.includes(timeKey);
+
               return (
                 <motion.button
                   key={timeKey}
                   onClick={() => toggleTimeSlot(day, time)}
                   disabled={isBooked || isHoliday || isPending}
                   className={clsx(
-                    "w-7 h-7 rounded-full border border-gray-300 m-1 max-[365px]:w-6  max-[365px]:h-6",
+                    "w-7 h-7 rounded-full border border-gray-300 m-1 max-[365px]:w-6 max-[365px]:h-6",
                     {
                       "bg-[#8A2A2B]": isBooked,
                       "bg-[#FED141]": isSelected,
@@ -248,17 +184,13 @@ const BookingCalendar = ({ roomName }) => {
         ))}
       </div>
 
-      {/* Footer */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-b p-4 flex justify-between items-center">
         <span className="text-sm">ทั้งหมด {selectedTimes.length} ชั่วโมง </span>
         <Link
           to="/reserveedit"
-          onClick={() => {
-            localStorage.setItem(
-              "selectedTimes",
-              JSON.stringify(selectedTimes)
-            );
-          }}
+          onClick={() =>
+            localStorage.setItem("selectedTimes", JSON.stringify(selectedTimes))
+          }
         >
           <button className="bg-[#8A2A2B] text-white px-8 py-2 rounded">
             แก้ไขข้อมูลการจอง
@@ -271,9 +203,11 @@ const BookingCalendar = ({ roomName }) => {
 
 const RoomInfoEdit = () => {
   const [roomData, setRoomData] = useState(null);
+  const [editableTimes, setEditableTimes] = useState([]);
 
   useEffect(() => {
     const roomId = localStorage.getItem("editRoomId");
+    const editMeetingId = localStorage.getItem("editMeetingId");
 
     if (roomId) {
       axios
@@ -284,6 +218,19 @@ const RoomInfoEdit = () => {
           }
         })
         .catch((err) => console.error("Fetch room failed:", err));
+    }
+
+    if (editMeetingId) {
+      axios
+        .post(`${BASE_URL}booking/getBooking/${editMeetingId}`)
+        .then((res) => {
+          if (res.data.success) {
+            setEditableTimes(res.data.data.bookingTime);
+          }
+        })
+        .catch((err) =>
+          console.error("Error fetching editable booking:", err)
+        );
     }
   }, []);
 
@@ -328,7 +275,10 @@ const RoomInfoEdit = () => {
       </div>
 
       <div className="my-4">
-        <BookingCalendar roomName={roomData.roomNameEN} />
+        <BookingCalendar
+          roomName={roomData.roomNameEN}
+          editableTimes={editableTimes}
+        />
       </div>
 
       <div className="flex flex-col gap-4 m-6 text-sm mb-18">
