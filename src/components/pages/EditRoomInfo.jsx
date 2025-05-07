@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import axios from "axios";
+import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_APIKEY;
@@ -40,10 +41,31 @@ const EditRoomInfo = () => {
           if (res.data.success) {
             setEditRoomInfo(res.data.data);
             console.log(res.data.data);
+            setAddRoomData({
+              roomNameTH: res.data.data.roomNameTH || "",
+              roomNameEN: res.data.data.roomNameEN || "",
+              building: res.data.data.building || "",
+              seat: res.data.data.seat || "",
+              size: res.data.data.size || "",
+              location: res.data.data.location || "",
+              capacity: res.data.data.capacity || "",
+              note: res.data.data.note || "",
+              branch: res.data.data.branch || "RANGSIT",
+              status: res.data.data.status ?? 0,
+            });
+          }
+
+          if (res.data.data.roomImage) {
+            setImage({
+              name: res.data.data.roomImage,
+              preview: `/assets/${res.data.data.roomImage}`,
+            });
           }
         })
         .catch((err) => console.error("Fetch room failed:", err));
+
     }
+
   }, []);
 
   const handleImageChange = (e) => {
@@ -61,7 +83,7 @@ const EditRoomInfo = () => {
 
     try {
       const response = await axios.put(
-        BASE_URL + "rooms/editRoom" + editRoomInfoId,
+        BASE_URL + "rooms/editRoom/" + editRoomInfoId,
         roomData
       );
 
@@ -106,7 +128,7 @@ const EditRoomInfo = () => {
             <div className="bg-[#D9D9D9] w-90 h-65">
               {image && (
                 <img
-                  src={URL.createObjectURL(image)}
+                  src={image instanceof File ? URL.createObjectURL(image) : image.preview}
                   alt="Uploaded"
                   className="w-full h-full object-cover"
                 />
@@ -146,6 +168,7 @@ const EditRoomInfo = () => {
                   type="text"
                   name={field.name}
                   value={addRoomData[field.name]}
+                  placeholder={editRoomInfo[field.name]}
                   onChange={handleChange}
                 />
               </div>

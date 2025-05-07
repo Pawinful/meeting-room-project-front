@@ -5,11 +5,11 @@ import Header from "./Header";
 
 function Layout() {
   return (
-    <div class="flex min-h-screen">
+    <div className="flex min-h-screen">
       <Navbar />
-      <div class="flex flex-col flex-1 min-h-screen">
+      <div className="flex flex-col flex-1 min-h-screen">
         <Header />
-        <div class="flex-1">{<Outlet />}</div>
+        <div className="flex-1">{<Outlet />}</div>
       </div>
     </div>
   );

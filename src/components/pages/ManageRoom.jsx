@@ -112,7 +112,7 @@ const ManageRoom = () => {
                   <td className="text-center px-4 py-5">
                     <button
                       onClick={() => handleEdit(room)}
-                      className="w-20 h-9 bg-[#45DB54] text-white rounded-md text-sm cursor-pointer hover:bg-[#E74C4D] mx-4"
+                      className="w-20 h-9 bg-[#45DB54] text-white rounded-md text-sm cursor-pointer hover:bg-[#3fc34c] mx-4"
                     >
                       แก้ไข
                     </button>
