@@ -16,7 +16,7 @@ import moment from "moment";
 
 const BASE_URL = import.meta.env.VITE_APIKEY;
 
-const last31Days = Array.from({ length: 31 }, (_, i) =>
+const last31Days = Array.from({ length: 36 }, (_, i) =>
   moment().subtract(i, "days").format("YYYY-MM-DD")
 );
 
@@ -82,7 +82,15 @@ const BookingCalendar = ({ roomName }) => {
   );
   const maxBookingHours = 3;
 
-  const handlePrevWeek = () => setCurrentWeek(subWeeks(currentWeek, 1));
+  const handlePrevWeek = () => {
+    const oneMonthAgo = moment().subtract(1, "month").startOf("week").toDate();
+    const newWeek = subWeeks(currentWeek, 1);
+
+    if (newWeek >= oneMonthAgo) {
+      setCurrentWeek(newWeek);
+    }
+  };
+
   const handleNextWeek = () => setCurrentWeek(addWeeks(currentWeek, 1));
 
   const days = Array.from({ length: 7 }, (_, i) => addDays(currentWeek, i));
@@ -181,28 +189,28 @@ const BookingCalendar = ({ roomName }) => {
               {time === "09:00"
                 ? "09:00-10:00"
                 : time === "10:00"
-                ? "10:00-11:00"
-                : time === "11:00"
-                ? "11:00-12:00"
-                : time === "12:00"
-                ? "12:00-13:00"
-                : time === "13:00"
-                ? "13:00-14:00"
-                : time === "14:00"
-                ? "14:00-15:00"
-                : time === "15:00"
-                ? "15:00-16:00"
-                : time === "16:00"
-                ? "16:00-17:00"
-                : time === "17:00"
-                ? "17:00-18:00"
-                : time === "18:00"
-                ? "18:00-19:00"
-                : time === "19:00"
-                ? "19:00-20:00"
-                : time === "20:00"
-                ? "20:00-21:00"
-                : time}
+                  ? "10:00-11:00"
+                  : time === "11:00"
+                    ? "11:00-12:00"
+                    : time === "12:00"
+                      ? "12:00-13:00"
+                      : time === "13:00"
+                        ? "13:00-14:00"
+                        : time === "14:00"
+                          ? "14:00-15:00"
+                          : time === "15:00"
+                            ? "15:00-16:00"
+                            : time === "16:00"
+                              ? "16:00-17:00"
+                              : time === "17:00"
+                                ? "17:00-18:00"
+                                : time === "18:00"
+                                  ? "18:00-19:00"
+                                  : time === "19:00"
+                                    ? "19:00-20:00"
+                                    : time === "20:00"
+                                      ? "20:00-21:00"
+                                      : time}
             </span>
           ))}
         </div>

@@ -16,7 +16,7 @@ import moment from "moment";
 
 const BASE_URL = import.meta.env.VITE_APIKEY;
 
-const last31Days = Array.from({ length: 31 }, (_, i) =>
+const last31Days = Array.from({ length: 36 }, (_, i) =>
   moment().subtract(i, "days").format("YYYY-MM-DD")
 );
 
@@ -82,7 +82,14 @@ const BookingCalendar = ({ roomName }) => {
   );
   const maxBookingHours = 3;
 
-  const handlePrevWeek = () => setCurrentWeek(subWeeks(currentWeek, 1));
+  const handlePrevWeek = () => {
+      const oneMonthAgo = moment().subtract(1, "month").startOf("week").toDate();
+      const newWeek = subWeeks(currentWeek, 1);
+  
+      if (newWeek >= oneMonthAgo) {
+        setCurrentWeek(newWeek);
+      }
+    };
   const handleNextWeek = () => setCurrentWeek(addWeeks(currentWeek, 1));
 
   const days = Array.from({ length: 7 }, (_, i) => addDays(currentWeek, i));

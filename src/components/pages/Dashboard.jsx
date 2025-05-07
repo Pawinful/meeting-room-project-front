@@ -4,26 +4,6 @@ import axios from "axios";
 import moment from "moment";
 const BASE_URL = import.meta.env.VITE_APIKEY;
 
-const bookings = [
-  {
-    room: "Meeting Room 1",
-    times: [null, "651074262", null, "651074263", null, null],
-  },
-  {
-    room: "Meeting Room 2",
-    times: ["651074264", null, null, null, null, null],
-  },
-  {
-    room: "Meeting Room 3",
-    times: [null, null, "651074265", "651074265", "651074265", null],
-  },
-  { room: "Meeting Room 4", times: [null, null, null, null, null, null] },
-  {
-    room: "Meeting Room 5",
-    times: [null, "651074266", "651074266", null, "651074267", null],
-  },
-];
-
 const Dashboard = () => {
   const [rooms, setRooms] = useState([]);
   const [pendingBooking, setPendingBooking] = useState([]);
@@ -69,6 +49,91 @@ const Dashboard = () => {
     fetchPendingBooking();
     fetchRooms();
   }, []);
+
+  const timeSlots = [
+    "09:00-10:00",
+    "10:00-11:00",
+    "11:00-12:00",
+    "12:00-13:00",
+    "13:00-14:00",
+    "14:00-15:00",
+    "15:00-16:00",
+    "16:00-17:00",
+    "17:00-18:00",
+    "18:00-19:00",
+    "19:00-20:00",
+    "20:00-21:00",
+  ];
+
+  const bookingMap = {};
+
+  allBooking.forEach((booking) => {
+    const bookingDate = moment(booking.bookingStartTime).local().format("YYYY-MM-DD");
+    const todayDate = moment().format("YYYY-MM-DD");
+
+    if (bookingDate === todayDate) {
+      const room = booking.roomNameEN;
+      if (!bookingMap[room]) bookingMap[room] = Array(timeSlots.length).fill(null);
+
+      booking.bookingTime.forEach((timeStr) => {
+        const hour = parseInt(timeStr.split(" ")[1].split(":")[0], 10);
+        const slotIndex = timeSlots.findIndex(
+          (slot) => parseInt(slot.split(":")[0]) === hour
+        );
+        if (slotIndex !== -1) {
+          bookingMap[room][slotIndex] = {
+            username: booking.customerUsername,
+            slotLabel: timeSlots[slotIndex],
+          };
+        }
+      });
+    }
+  });
+
+  const roomList = Object.keys(bookingMap);
+
+  const monthlyBookingData = () => {
+    const monthMap = {};
+
+    allBooking.forEach((booking) => {
+      const month = moment(booking.bookingStartTime).format("MMM").toUpperCase();
+      if (!monthMap[month]) monthMap[month] = 0;
+      monthMap[month]++;
+    });
+
+    const orderedMonths = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
+    const chartData = [["เดือน", "จำนวนจอง"]];
+    orderedMonths.forEach((m) => {
+      chartData.push([m, monthMap[m] || 0]);
+    });
+
+    return chartData;
+  };
+
+  const roomPopularityData = () => {
+    const roomMap = {};
+
+    allBooking.forEach((booking) => {
+      const room = booking.roomNameEN;
+      if (!roomMap[room]) roomMap[room] = 0;
+      roomMap[room]++;
+    });
+
+    const chartData = [["ห้อง", "ความนิยม"]];
+    Object.entries(roomMap).forEach(([room, count]) => {
+      chartData.push([room, count]);
+    });
+
+    return chartData;
+  };
+
+  const todayBookingCount = allBooking.filter(
+    (booking) =>
+      moment(booking.bookingStartTime).local().format("D MMMM YYYY") === today
+  ).length;
+
+
   return (
     <div className="bg-gray-100 min-h-screen p-6">
       <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
@@ -77,7 +142,7 @@ const Dashboard = () => {
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-6 mb-6 text-center">
         {[
           ["การจองทั้งหมด", allBooking.length],
-          ["การจองวันนี้", 3],
+          ["การจองวันนี้", todayBookingCount],
           ["รอการอนุมัติ", pendingBooking.length],
           ["จำนวนห้องประชุม", rooms.length],
         ].map(([title, value], index) => (
@@ -102,59 +167,38 @@ const Dashboard = () => {
       </div>
 
       {/* แถว 2 */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-1 gap-6 mb-6">
         {/* ตารางแสดงการจองห้อง */}
         <div className="bg-white rounded-lg col-span-2 p-4 text-left">
           <p className="font-bold text-lg">ตารางแสดงการจองห้อง</p>
           <p className="text-gray-500 text-sm mt-1 mb-3">{today}</p>
 
           <div className="overflow-auto max-w-full max-h-75 border border-gray-300 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <table className="w-full text-sm border border-gray-300 min-w-175 min-h-50">
+            <table className="w-full text-sm border border-gray-300 min-w-175 ">
               <thead>
                 <tr className="">
-                  <th className="p-2 text-center">ห้องประชุม/เวลา</th>
-                  {[
-                    "09:00-10:00",
-                    "11:00-12:00",
-                    "12:00-13:00",
-                    "13:00-14:00",
-                    "14:00-15:00",
-                    "16:00-17:00",
-                  ].map((time, index) => (
-                    <th key={index} className="p-2 text-center">
+                  <th className="p-2 py-4 text-center min-w-30">ห้องประชุม/เวลา</th>
+                  {timeSlots.map((time, index) => (
+                    <th key={index} className="p-2 text-center min-w-25">
                       {time}
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {bookings.map(({ room, times }, index) => (
-                  <tr key={index}>
-                    <td className="border border-gray-300 p-2">{room}</td>
-                    {times.map((booking, idx) => (
+                {roomList.map((room, idx) => (
+                  <tr key={idx}>
+                    <td className="border border-gray-300 text-center p-4">{room}</td>
+                    {bookingMap[room].map((entry, timeIdx) => (
                       <td
-                        key={idx}
-                        className={`border border-gray-300 p-2 text-center ${
-                          booking ? "bg-[#F9E193]" : ""
-                        }`}
+                        key={timeIdx}
+                        className={`border border-gray-300 text-center ${entry ? "bg-[#F9E193]" : ""
+                          }`}
                       >
-                        {booking && (
+                        {entry && (
                           <div>
-                            <p className="text-[#8A2A2B] font-bold">
-                              {booking}
-                            </p>
-                            <p className="text-[#333333] text-sm">
-                              {
-                                [
-                                  "09:00-10:00",
-                                  "11:00-12:00",
-                                  "12:00-13:00",
-                                  "13:00-14:00",
-                                  "14:00-15:00",
-                                  "16:00-17:00",
-                                ][idx]
-                              }
-                            </p>
+                            <p className="text-[#8A2A2B] font-bold">{entry.username}</p>
+                            <p className="text-[#333333] text-sm">{entry.slotLabel}</p>
                           </div>
                         )}
                       </td>
@@ -162,44 +206,12 @@ const Dashboard = () => {
                   </tr>
                 ))}
               </tbody>
+
             </table>
           </div>
         </div>
 
-        {/* การจองล่าสุด */}
-        <div className="bg-white rounded-lg p-4">
-          <p className="font-bold text-lg mb-2">การจองล่าสุด</p>
-          <div className="overflow-auto max-h-80 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidde">
-            {allBooking.map(
-              ({ customerUsername, bookingStatus, createdAt }, index) => (
-                <div
-                  key={index}
-                  className="flex justify-between items-center py-2"
-                >
-                  <span className="text-sm">{customerUsername}</span>
-                  <span
-                    className={`px-2 py-1 text-xs font-bold rounded ${
-                      bookingStatus === "PENDING"
-                        ? "bg-gray-300 text-gray-700"
-                        : bookingStatus === "REJECTED"
-                        ? "bg-red-200 text-red-700"
-                        : "bg-green-200 text-green-700"
-                    }`}
-                  >
-                    {bookingStatus === "APPROVE"
-                      ? "Approve"
-                      : bookingStatus === "PENDING"
-                      ? "Pending"
-                      : bookingStatus}
-                  </span>
-                  <span className="text-sm text-gray-500">
-                    {moment(createdAt).format("DD-MM-YYYY")}
-                  </span>
-                </div>
-              )
-            )}
-          </div>
-        </div>
+
 
         {/* ประเภทผู้ใช้งาน */}
         {/* <div className="bg-white rounded-lg p-4">
@@ -223,31 +235,57 @@ const Dashboard = () => {
       </div>
 
       {/* แถว 3 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* การจองล่าสุด */}
+        <div className="bg-white rounded-lg p-4">
+          <p className="font-bold text-lg mb-2">การจองล่าสุด</p>
+          <div className="overflow-auto max-h-80 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {allBooking.map(
+              ({ customerUsername, bookingStatus, createdAt }, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between items-center py-2"
+                >
+                  <span className="text-sm">{customerUsername}</span>
+                  <span
+                    className={`px-2 py-1 text-xs font-bold rounded ${bookingStatus === "PENDING"
+                      ? "bg-gray-300 text-gray-700"
+                      : bookingStatus === "REJECTED"
+                        ? "bg-red-200 text-red-700"
+                        : "bg-green-200 text-green-700"
+                      }`}
+                  >
+                    {bookingStatus === "APPROVE"
+                      ? "Approve"
+                      : bookingStatus === "PENDING"
+                        ? "Pending"
+                        : bookingStatus}
+                  </span>
+                  <span className="text-sm text-gray-500">
+                    {moment(createdAt).format("DD-MM-YYYY")}
+                  </span>
+                </div>
+              )
+            )}
+          </div>
+        </div>
         <div className="bg-white rounded-lg p-4">
           <p className="font-bold text-lg mb-2">
             กราฟสรุปจำนวนการจองห้องประชุม
           </p>
           <Chart
             width={"100%"}
-            height={"250px"}
+            height={"300px"}
             chartType="LineChart"
             loader={<div>Loading Chart</div>}
-            data={[
-              ["เดือน", "จำนวนจอง"],
-              ["JAN", 30],
-              ["FEB", 40],
-              ["MAR", 35],
-              ["APR", 50],
-              ["MAY", 30],
-              ["JUN", 45],
-            ]}
+            data={monthlyBookingData()}
             options={{
               hAxis: { title: "เดือน" },
               vAxis: { title: "จำนวนจอง" },
               legend: { position: "none" },
             }}
           />
+
         </div>
 
         <div className="bg-white rounded-lg p-4">
@@ -256,21 +294,17 @@ const Dashboard = () => {
           </p>
           <Chart
             width={"100%"}
-            height={"250px"}
+            height={"300px"}
             chartType="ColumnChart"
             loader={<div>Loading Chart</div>}
-            data={[
-              ["ห้อง", "ความนิยม"],
-              ["Meeting Room 1", 15],
-              ["Meeting Room 2", 10],
-              ["Meeting Room 3", 7],
-            ]}
+            data={roomPopularityData()}
             options={{
               hAxis: { title: "ห้องประชุม" },
               vAxis: { title: "ความนิยม" },
               legend: { position: "none" },
             }}
           />
+
         </div>
       </div>
     </div>

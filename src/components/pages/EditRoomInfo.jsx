@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import axios from "axios";
-import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_APIKEY;

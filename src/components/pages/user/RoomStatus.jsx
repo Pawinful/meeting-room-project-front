@@ -37,7 +37,7 @@ const RoomStatus = () => {
     "20:00",
   ];
 
-  const last31Days = Array.from({ length: 31 }, (_, i) =>
+  const last31Days = Array.from({ length: 36 }, (_, i) =>
     moment().subtract(i, "days").format("YYYY-MM-DD")
   );
 
@@ -91,7 +91,14 @@ const RoomStatus = () => {
     fetchRooms();
   }, []);
 
-  const handlePrevWeek = () => setCurrentWeek(subWeeks(currentWeek, 1));
+  const handlePrevWeek = () => {
+      const oneMonthAgo = moment().subtract(1, "month").startOf("week").toDate();
+      const newWeek = subWeeks(currentWeek, 1);
+  
+      if (newWeek >= oneMonthAgo) {
+        setCurrentWeek(newWeek);
+      }
+    };
   const handleNextWeek = () => setCurrentWeek(addWeeks(currentWeek, 1));
 
   const getColor = (status) => {
