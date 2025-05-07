@@ -32,6 +32,7 @@ import ProtectedRoutesAdmin from "./components/shared/AdminProtectedRoute.jsx";
 import ProtectedRoutes from "./components/shared/ProtectedRoute.jsx";
 import RoomInfoEdit from "./components/pages/user/RoomInfoEdit.jsx";
 import ReserveEdit from "./components/pages/user/ReserveEdit.jsx";
+import EditRoomInfo from "./components/pages/EditRoomInfo.jsx";
 
 const router = createBrowserRouter([
   {
@@ -113,6 +114,10 @@ const router = createBrowserRouter([
           {
             path: "approvebooking",
             element: <ApproveBooking />,
+          },
+          {
+            path: "editroominfo",
+            element: <EditRoomInfo />,
           },
         ],
       },

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import moment from "moment";
+// import moment from "moment";
 import axios from "axios";
+import moment from "moment-timezone";
 
 const BASE_URL = import.meta.env.VITE_APIKEY;
 
@@ -32,13 +33,13 @@ const Approve = () => {
               อนุมัติการจองห้องประชุม
             </h1>
 
-            <div className="flex items-center gap-2 mt-4 md:mt-0">
+            {/* <div className="flex items-center gap-2 mt-4 md:mt-0">
               <div className="text-gray-600">ค้นหา : </div>
               <input
                 type="text"
                 className="border border-gray-300 rounded-lg px-3 py-1 focus:outline-none"
               />
-            </div>
+            </div> */}
           </div>
 
           {/* table */}
@@ -74,9 +75,12 @@ const Approve = () => {
                       <td className="text-center px-4 py-5">{index + 1}</td>
                       <td className="text-center px-4 py-5">{roomNameEN}</td>
                       <td className="text-center px-4 py-5">
-                        {moment(bookingStartTime).format("D")}
+                        {moment(bookingStartTime).format("DD-MM-YYYY")}
                       </td>
                       <td className="text-center px-4 py-5">
+                        {/* {moment("2025-05-08T18:00:00.000+00:00").format(
+                          "HH:mm"
+                        )} */}
                         {moment(bookingStartTime).format("HH:mm")} -{" "}
                         {moment(bookingEndTime).format("HH:mm")}
                       </td>

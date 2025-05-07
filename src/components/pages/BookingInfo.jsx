@@ -43,13 +43,13 @@ const BookingInfo = () => {
             <h1 className="text-[#8A2A2B] text-xl font-bold text-center md:text-left">
               ข้อมูลการจองห้องประชุม
             </h1>
-            <div className="flex items-center gap-2 mt-4 md:mt-0">
+            {/* <div className="flex items-center gap-2 mt-4 md:mt-0">
               <div className="text-gray-600">ค้นหา : </div>
               <input
                 type="text"
                 className="border border-gray-300 rounded-lg px-3 py-1 focus:outline-none"
               />
-            </div>
+            </div> */}
           </div>
 
           <div className="flex-1 overflow-y-auto max-h-[65vh] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">

@@ -7,6 +7,7 @@ import axios from "axios";
 const BASE_URL = import.meta.env.VITE_APIKEY;
 
 const ManageRoom = () => {
+  const navigate = useNavigate();
   const [meetingRooms, setMeetingRooms] = useState([]);
   moment.locale("th");
   const today = moment().format("HH:mm dddd, D MMMM YYYY");
@@ -23,7 +24,10 @@ const ManageRoom = () => {
   useEffect(() => {
     fetchRooms();
   }, []);
-
+  const handleEdit = async (room) => {
+    localStorage.setItem("editRoomInfoId", room._id);
+    navigate("/admin/editroominfo");
+  };
   const handleDelete = async (room) => {
     const confirmDelete = window.confirm("ยืนยันที่จะลบห้องประชุมหรือไม่?");
     if (!confirmDelete) return;
@@ -52,13 +56,13 @@ const ManageRoom = () => {
           </div>
 
           <div className="flex flex-col justify-end mt-4 md:mt-0">
-            <div className="flex items-center gap-2 mb-3">
+            {/* <div className="flex items-center gap-2 mb-3">
               <div className="text-gray-600">ค้นหา : </div>
               <input
                 type="text"
                 className="border border-gray-300 rounded-lg px-3 py-1 focus:outline-none"
               />
-            </div>
+            </div> */}
             <div className="flex justify-end">
               <Link to="/admin/addroom">
                 <button className="w-35 h-7 bg-[#D9D9D9] hover:bg-[#d0d0d0] text-black rounded-md text-l cursor-pointer">
@@ -104,7 +108,14 @@ const ManageRoom = () => {
                       {room.status === 0 ? "เปิดใช้งาน" : room.status}
                     </div>
                   </td>
+
                   <td className="text-center px-4 py-5">
+                    <button
+                      onClick={() => handleEdit(room)}
+                      className="w-20 h-9 bg-[#45DB54] text-white rounded-md text-sm cursor-pointer hover:bg-[#E74C4D] mx-4"
+                    >
+                      แก้ไข
+                    </button>
                     <button
                       onClick={() => handleDelete(room)}
                       className="w-20 h-9 bg-[#FC6A6C] text-white rounded-md text-sm cursor-pointer hover:bg-[#E74C4D]"

@@ -17,6 +17,8 @@ const Reserve = () => {
   const [meetingInfo, setMeetingInfo] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const lastTime = selectedTimes[selectedTimes.length - 1];
+  const startTime = selectedTimes[0];
+  const startTimeRaw = moment(startTime).add(0, "hours");
   const finishedTimeRaw = moment(lastTime).add(1, "hours");
   const finishedTime = moment(lastTime).add(1, "hours").format("HH:mm");
 
@@ -65,7 +67,7 @@ const Reserve = () => {
       customerUsername: userData.username,
       customerDepartment: userData.department,
       customerEmail: userData.email,
-      bookingStartTime: selectedTimes[0],
+      bookingStartTime: startTimeRaw,
       bookingTime: selectedTimes,
       bookingEndTime: finishedTimeRaw,
       requireApprove: true,
