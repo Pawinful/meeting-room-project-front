@@ -40,6 +40,28 @@ const MyBooking = () => {
     fetchBookings();
   }, []);
 
+  const handleConfirm = async (bookingId) => {
+    if (!window.confirm("Are you sure you want to confirm this booking?")) {
+      return;
+    }
+    try {
+      const response = await axios.put(
+        BASE_URL + "booking/editBooking/" + bookingId,
+        {
+          confirmStatus: "CONFIRMED"
+        }
+      );
+      if (response.data.success) {
+        alert("Confirm Booking Successfully")
+        window.location.reload();
+      } else {
+        alert("Failed to confirm booking.");
+      }
+    } catch (error) {
+      console.error("Error cancelling booking:", error);
+      alert("An error occurred while confirm the booking.");
+    }
+  }
   const handleCancel = async (bookingId) => {
     if (!window.confirm("Are you sure you want to cancel this booking?")) {
       return;
@@ -52,6 +74,7 @@ const MyBooking = () => {
         setData((prevData) =>
           prevData.filter((item) => item._id !== bookingId)
         );
+        window.location.reload();
       } else {
         alert("Failed to cancel booking.");
       }
@@ -155,12 +178,14 @@ const MyBooking = () => {
               >
                 Cancel
               </button>
-              {/* <button
-                className="bg-[#1A5D44] text-white px-4 py-1 rounded-md cursor-pointer"
-                onClick={() => handleCancel(item._id)}
-              >
-                Confirm
-              </button> */}
+              {item.confirmStatus === "PENDING" && (
+                <button
+                  className="bg-[#1A5D44] text-white px-4 py-1 rounded-md cursor-pointer"
+                  onClick={() => handleConfirm(item._id)}
+                  >
+                  Confirm
+                </button>
+              )}
             </div>
           </div>
         </div>
