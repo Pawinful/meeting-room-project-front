@@ -86,12 +86,12 @@ const UserNav = () => {
           >
             <FaCalendarAlt /> Room Status
           </Link>
-          <div className="text-lg font-semibold py-3 flex items-center gap-3">
+          {/* <div className="text-lg font-semibold py-3 flex items-center gap-3">
             Setting
           </div>
           <Link to="/setting" className="text-lg  py-3 flex items-center gap-3">
             <FaCog /> Setting
-          </Link>
+          </Link> */}
           <div className="mt-auto pt-4">
             <Link
               to="/account"
