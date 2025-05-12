@@ -241,7 +241,7 @@ const Dashboard = () => {
           <p className="font-bold text-lg mb-2">การจองล่าสุด</p>
           <div className="overflow-auto max-h-80 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {allBooking.map(
-              ({ customerUsername, bookingStatus, createdAt }, index) => (
+              ({ customerUsername, bookingStatus, bookingStartTime }, index) => (
                 <div
                   key={index}
                   className="flex justify-between items-center py-2"
@@ -262,7 +262,7 @@ const Dashboard = () => {
                         : bookingStatus}
                   </span>
                   <span className="text-sm text-gray-500">
-                    {moment(createdAt).format("DD-MM-YYYY")}
+                    {moment(bookingStartTime).format("DD-MM-YYYY")}
                   </span>
                 </div>
               )
